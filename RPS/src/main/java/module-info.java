@@ -3,7 +3,7 @@ module rps {
     requires javafx.fxml;
             
                             
-    opens rps to javafx.fxml;
-    exports rps;
+    opens RPS to javafx.fxml;
+    exports RPS;
 
 }

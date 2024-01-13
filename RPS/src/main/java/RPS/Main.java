@@ -1,4 +1,4 @@
-package rps;
+package RPS;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -9,13 +9,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private int stageHeight = 800;
-    private int stageWidth = 1200;
+    int stageHeight = 800;
+    int stageWidth = 1200;
 
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage stage) throws Exception {
         this.setStage(stage);
@@ -27,7 +26,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    public void setStage(Stage stage) {
+    private void setStage(Stage stage) {
         stage.setTitle("RPS | Rock Paper Scissors");
         stage.setResizable(false);
         stage.centerOnScreen();
