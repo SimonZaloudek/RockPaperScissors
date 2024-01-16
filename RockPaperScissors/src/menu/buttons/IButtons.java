@@ -1,4 +1,4 @@
-package Menu;
+package menu.buttons;
 
 public interface IButtons {
     void createButton(int x, int y, int width, int height, String text);

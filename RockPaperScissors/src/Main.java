@@ -1,7 +1,7 @@
-import Menu.MainMenu;
+import menu.Frame;
 
 public class Main {
     public static void main(String[] args) {
-        MainMenu menu = new MainMenu();
+        Frame menu = new Frame();
     }
 }
