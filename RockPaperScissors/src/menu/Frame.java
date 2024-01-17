@@ -14,8 +14,5 @@ public class Frame extends JFrame {
         super.setIconImage(icon.getImage());
 
         MenuPanel panel = new MenuPanel(this);
-        super.add(panel);
-        super.pack();
-        super.setLocationRelativeTo(null);
     }
 }
