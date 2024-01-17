@@ -1,20 +1,21 @@
 package menu.panels;
 
 import menu.Frame;
+import menu.buttons.Button;
 import menu.buttons.EButtons;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuPanel extends JPanel {
+public class MenuPanel extends JPanel implements IPanel {
 
-    private Frame frame;
+    private final Frame frame;
 
     public MenuPanel(Frame pFrame) {
         this.frame = pFrame;
 
         this.setupPanel(Color.BLACK, 600, 800);
-        this.buttonSetup();
+        this.setupButtons();
 
         this.frame.add(this);
         this.frame.pack();
@@ -32,41 +33,40 @@ public class MenuPanel extends JPanel {
         this.setVisible(true);
     }
 
-    public void buttonSetup() {
+    public void setupButtons() {
 
-        EButtons playButton = EButtons.PLAY;
-        this.add(playButton.getButton());
-        playButton.ButtonActions(this, null);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
+        this.add(menuButton);
 
-        EButtons optionsButton = EButtons.OPTIONS;
-        this.add(optionsButton.getButton());
-        optionsButton.ButtonActions(this, null);
+        Button playButton = new Button(EButtons.PLAY,this, 30, 250, 175, 65, "PLAY");
+        this.add(playButton);
 
-        EButtons helpButton = EButtons.HELP;
-        this.add(helpButton.getButton());
-        helpButton.ButtonActions(this, null);
+        Button optionsButton = new Button(EButtons.OPTIONS,this, 30, 370, 175, 65, "OPTIONS");
+        this.add(optionsButton);
 
-        EButtons exitButton = EButtons.EXIT;
-        this.add(exitButton.getButton());
-        exitButton.ButtonActions(this, null);
+        Button helpButton = new Button(EButtons.HELP,this, 30, 490, 175, 65, "HELP");
+        this.add(helpButton);
 
-        EButtons menuButton = EButtons.MENU;
-        this.add(menuButton.getButton());
-        menuButton.ButtonActions(this, null);
+        Button exitButton = new Button(EButtons.EXIT,this, 30, 610, 175, 65, "EXIT");
+        this.add(exitButton);
     }
 
-    public void Play() {
-        new PreGameMenu(this.frame);
-        super.removeAll();
-    }
-
-    public void Options() {
-        new OptionsPanel(this.frame);
-        super.removeAll();
-    }
-
-    public void Help() {
-        new HelpPanel(this.frame);
-        super.removeAll();
+    @Override
+    public void onButtonClick(EButtons button) {
+        switch (button) {
+            case PLAY -> {
+                this.frame.remove(this);
+                this.frame.add(new PreGameMenu(this.frame));
+            }
+            case OPTIONS -> {
+                this.frame.remove(this);
+                this.frame.add(new OptionsPanel(this.frame));
+            }
+            case HELP -> {
+                this.frame.remove(this);
+                this.frame.add(new HelpPanel(this.frame));
+            }
+            case EXIT -> System.exit(0);
+        }
     }
 }

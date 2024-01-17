@@ -7,18 +7,23 @@ import menu.buttons.EButtons;
 import javax.swing.*;
 import java.awt.*;
 
-public class OptionsPanel extends JPanel implements IPanel {
+public class PreGameMenu extends JPanel implements IPanel {
 
     Frame frame;
 
-    OptionsPanel(Frame pFrame) {
+    PreGameMenu(Frame pFrame) {
         this.frame = pFrame;
 
-        this.setupPanel(Color.GREEN, 600, 800);
+        this.setupPanel(Color.RED, 600, 800);
         this.setupButtons();
 
         this.frame.add(this);
         this.frame.pack();
+        this.frame.setLocationRelativeTo(null);
+
+        if (!this.isVisible()) {
+            this.setVisible(true);
+        }
     }
 
     public void setupPanel(Color color, int width, int height) {
@@ -28,7 +33,7 @@ public class OptionsPanel extends JPanel implements IPanel {
         this.setVisible(true);
     }
 
-    public void setupButtons() {
+    private void setupButtons() {
         Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
         this.add(menuButton);
 
@@ -46,3 +51,4 @@ public class OptionsPanel extends JPanel implements IPanel {
         }
     }
 }
+
