@@ -13,7 +13,7 @@ public class HelpPanel extends JPanel implements IPanel {
     HelpPanel(Frame pFrame) {
         this.frame = pFrame;
 
-        this.setupPanel(Color.ORANGE, 600, 800);
+        this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
 
         this.frame.add(this);
@@ -29,10 +29,10 @@ public class HelpPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        menu.buttons.Button menuButton = new menu.buttons.Button(EButtons.MENU,this, 30, 30, 540, 150);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
         this.add(menuButton);
 
-        menu.buttons.Button backButton = new Button(EButtons.BACK,this, 30, 610, 175, 65, "BACK");
+        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK");
         this.add(backButton);
     }
 

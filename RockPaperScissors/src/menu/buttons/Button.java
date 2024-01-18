@@ -71,6 +71,7 @@ public class Button extends JButton implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         this.setDefaultColor();
+        this.panel.onButtonClick(this.button);
     }
 
     @Override

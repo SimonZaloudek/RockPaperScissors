@@ -1,5 +1,6 @@
 package menu.panels;
 
+import game.Game;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
@@ -14,7 +15,7 @@ public class PreGameMenu extends JPanel implements IPanel {
     PreGameMenu(Frame pFrame) {
         this.frame = pFrame;
 
-        this.setupPanel(Color.RED, 600, 800);
+        this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
 
         this.frame.add(this);
@@ -37,8 +38,11 @@ public class PreGameMenu extends JPanel implements IPanel {
         Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
         this.add(menuButton);
 
-        Button backButton = new Button(EButtons.BACK,this, 30, 610, 175, 65, "BACK");
+        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK");
         this.add(backButton);
+
+        Button startButton = new Button(EButtons.PLAY, this, 385, 695, 175, 65, "START");
+        this.add(startButton);
     }
 
     @Override
@@ -47,6 +51,10 @@ public class PreGameMenu extends JPanel implements IPanel {
             case MENU, BACK -> {
                 this.frame.remove(this);
                 this.frame.add(new MenuPanel(this.frame));
+            }
+            case PLAY -> {
+                this.frame.remove(this);
+                this.frame.add(new Game(this.frame));
             }
         }
     }

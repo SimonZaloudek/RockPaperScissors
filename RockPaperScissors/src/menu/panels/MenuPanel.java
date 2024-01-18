@@ -10,7 +10,6 @@ import java.awt.*;
 public class MenuPanel extends JPanel implements IPanel {
 
     private final Frame frame;
-
     public MenuPanel(Frame pFrame) {
         this.frame = pFrame;
 
@@ -38,16 +37,13 @@ public class MenuPanel extends JPanel implements IPanel {
         Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
         this.add(menuButton);
 
-        Button playButton = new Button(EButtons.PLAY,this, 30, 250, 175, 65, "PLAY");
+        Button playButton = new Button(EButtons.PLAY,this, 40, 250, 175, 75, "PLAY");
         this.add(playButton);
 
-        Button optionsButton = new Button(EButtons.OPTIONS,this, 30, 370, 175, 65, "OPTIONS");
-        this.add(optionsButton);
-
-        Button helpButton = new Button(EButtons.HELP,this, 30, 490, 175, 65, "HELP");
+        Button helpButton = new Button(EButtons.HELP,this, 40, 400, 175, 65, "HELP");
         this.add(helpButton);
 
-        Button exitButton = new Button(EButtons.EXIT,this, 30, 610, 175, 65, "EXIT");
+        Button exitButton = new Button(EButtons.EXIT,this, 40, 695, 175, 65, "EXIT");
         this.add(exitButton);
     }
 
@@ -57,10 +53,6 @@ public class MenuPanel extends JPanel implements IPanel {
             case PLAY -> {
                 this.frame.remove(this);
                 this.frame.add(new PreGameMenu(this.frame));
-            }
-            case OPTIONS -> {
-                this.frame.remove(this);
-                this.frame.add(new OptionsPanel(this.frame));
             }
             case HELP -> {
                 this.frame.remove(this);
