@@ -21,12 +21,12 @@ public class Button extends JButton implements MouseListener {
         this.genericButton(x, y, pWidth, pHeight, text);
     }
 
-    public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight) {
+    public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight, int var) {
         super.addMouseListener(this);
         this.panel = pPanel;
         this.button = pButton;
 
-        this.imageButton(x, y, pWidth, pHeight);
+        this.imageButton(x, y, pWidth, pHeight, var);
     }
 
     public void genericButton(int x, int y, int pWidth, int pHeight, String text) {
@@ -39,11 +39,20 @@ public class Button extends JButton implements MouseListener {
         super.setVisible(true);
     }
 
-    public void imageButton(int x, int y, int width, int height) {
+    public void imageButton(int x, int y, int width, int height, int var) {
         super.setBounds(x, y, width, height);
         super.setBorder(BorderFactory.createEmptyBorder());
-
-        ImageIcon buttonIcon = new ImageIcon("peto.png");
+        String path;
+        if (var == 1) {
+            path = "assets/peto.png";
+        } else if (var == 2) {
+            path = "assets/buttonL.png";
+        } else if (var == 3) {
+            path = "assets/buttonR.png";
+        } else {
+            path = "";
+        }
+        ImageIcon buttonIcon = new ImageIcon(path);
         super.setIcon(buttonIcon);
         super.setVisible(true);
     }
@@ -71,7 +80,7 @@ public class Button extends JButton implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         this.setDefaultColor();
-        this.panel.onButtonClick(this.button);
+        //this.panel.onButtonClick(this.button);
     }
 
     @Override

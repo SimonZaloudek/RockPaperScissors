@@ -29,7 +29,7 @@ public class HelpPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, 1);
         this.add(menuButton);
 
         Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK");

@@ -34,7 +34,7 @@ public class MenuPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, 1);
         this.add(menuButton);
 
         Button playButton = new Button(EButtons.PLAY,this, 40, 250, 175, 75, "PLAY");

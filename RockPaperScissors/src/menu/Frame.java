@@ -10,7 +10,7 @@ public class Frame extends JFrame {
         super.setVisible(true);
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        ImageIcon icon = new ImageIcon("icon.jpg");
+        ImageIcon icon = new ImageIcon("assets/icon.jpg");
         super.setIconImage(icon.getImage());
 
         MenuPanel panel = new MenuPanel(this);

@@ -3,17 +3,19 @@ package game;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
-import menu.panels.HelpPanel;
 import menu.panels.IPanel;
 import menu.panels.MenuPanel;
-import menu.panels.PreGameMenu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class Game extends JPanel implements KeyListener, IPanel {
+public class Game extends JPanel implements KeyListener, IPanel, ActionListener {
 
     private final Frame frame;
     private final int WIDTH = 1600;
@@ -24,7 +26,13 @@ public class Game extends JPanel implements KeyListener, IPanel {
     Button helpButton = new Button(EButtons.MENU, this, ((this.WIDTH/2) - (90)), 440, 175, 65, "MENU");
     Button menuButton = new Button(EButtons.EXIT, this, ((this.WIDTH/2) - (90)), 570, 175, 65, "EXIT");
 
-    public Game(Frame pFrame) {
+    Timer timer;
+
+    ArrayList<Entity> entities = new ArrayList<>();
+
+    Random random = new Random(System.nanoTime());
+
+    public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors) {
         this.frame = pFrame;
         super.addKeyListener(this);
 
@@ -38,6 +46,11 @@ public class Game extends JPanel implements KeyListener, IPanel {
             this.setVisible(true);
         }
         this.requestFocus();
+
+        this.timer = new Timer(0, this);
+        this.timer.start();
+
+        this.setupEntities(numOfRocks, numOfPapers, numOfScissors);
     }
 
     public void setupPanel(Color color, int width, int height) {
@@ -47,6 +60,36 @@ public class Game extends JPanel implements KeyListener, IPanel {
         this.setVisible(true);
     }
 
+    public void setupEntities(int numOfRocks, int numOfPapers, int numOfScissors) {
+        for (int i = 0; i < numOfRocks; i++) {
+            this.entities.add(new Entity("ROCK", this.setLocation("X"), this.setLocation("Y")));
+        }
+        for (int i = 0; i < numOfPapers; i++) {
+            this.entities.add(new Entity("PAPER", this.setLocation("X"), this.setLocation("Y")));
+        }
+        for (int i = 0; i < numOfScissors; i++) {
+            this.entities.add(new Entity("SCISSORS", this.setLocation("X"), this.setLocation("Y")));
+        }
+    }
+
+    public int setLocation(String index) {
+        if (index.equals("X")) {
+            return random.nextInt(this.WIDTH - 100) + 50;
+        } else if (index.equals("Y")) {
+            return random.nextInt(this.HEIGHT - 100) + 50;
+        } else {
+            return -1;
+        }
+    }
+
+    private void moveEntities() {
+        for (Entity entity : entities) {
+            entity.updateX();
+            entity.updateY();
+        }
+    }
+
+    //PaintSegment
     public void paint(Graphics g) {
         super.paint(g);
 
@@ -57,8 +100,21 @@ public class Game extends JPanel implements KeyListener, IPanel {
     private void drawGame(Graphics2D g2d) {
         g2d.setColor(Color.WHITE);
         g2d.fillRoundRect(0,0,this.WIDTH, this.HEIGHT, 0, 0);
+
+        for (Entity entity : this.entities) {
+            g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
+        }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.moveEntities();
+        this.repaint();
+    }
+
+
+
+    //OptionsSegment
     public void drawPause(Graphics2D g2d) {
         int width = 300;
         int height = 400;
@@ -127,10 +183,12 @@ public class Game extends JPanel implements KeyListener, IPanel {
             this.isDrawn = true;
             this.drawPause(g2d);
             this.setupButtons();
+            this.timer.stop();
         } else {
             this.isDrawn = false;
             this.setupButtons();
             this.paint(this.getGraphics());
+            this.timer.start();
         }
         g2d.dispose();
     }
