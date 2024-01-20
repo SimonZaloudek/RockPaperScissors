@@ -74,9 +74,9 @@ public class Game extends JPanel implements KeyListener, IPanel, ActionListener 
 
     public int setLocation(String index) {
         if (index.equals("X")) {
-            return random.nextInt(this.WIDTH - 100) + 50;
+            return random.nextInt((this.WIDTH - 105) - 60) + 60;
         } else if (index.equals("Y")) {
-            return random.nextInt(this.HEIGHT - 100) + 50;
+            return random.nextInt((this.HEIGHT - 105) -60) + 60;
         } else {
             return -1;
         }
@@ -98,8 +98,7 @@ public class Game extends JPanel implements KeyListener, IPanel, ActionListener 
     }
 
     private void drawGame(Graphics2D g2d) {
-        g2d.setColor(Color.WHITE);
-        g2d.fillRoundRect(0,0,this.WIDTH, this.HEIGHT, 0, 0);
+        g2d.drawImage(new ImageIcon("assets/gamePanelMain.png").getImage(),0,0, 1600, 900, null);
 
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);

@@ -7,8 +7,10 @@ import menu.buttons.EButtons;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class PreGameMenu extends JPanel implements IPanel {
+public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     Frame frame;
 
@@ -16,10 +18,9 @@ public class PreGameMenu extends JPanel implements IPanel {
     private int scissors = 0;
     private int papers = 0;
 
-    public PreGameMenu() {
-    }
     PreGameMenu(Frame pFrame) {
         this.frame = pFrame;
+        super.addKeyListener(this);
 
         this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
@@ -46,6 +47,7 @@ public class PreGameMenu extends JPanel implements IPanel {
         Graphics2D g2d = (Graphics2D)g;
         this.drawPanel(g2d);
         this.setupButtons();
+        super.requestFocus();
 
     }
 
@@ -171,16 +173,24 @@ public class PreGameMenu extends JPanel implements IPanel {
         }
     }
 
-    public int getScissors() {
-        return scissors;
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
-    public int getRocks() {
-        return rocks;
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.papers = 30;
+            this.scissors = 30;
+            this.rocks = 30;
+            this.repaint();
+        }
     }
 
-    public int getPapers() {
-        return papers;
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
 
