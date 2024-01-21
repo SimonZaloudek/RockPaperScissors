@@ -15,15 +15,15 @@ public class Entity {
 
     Image image;
 
-    public Entity(String entity, int x, int y) {
+    public Entity(String entity, int[] xy) {
         switch (entity) {
             case "ROCK" -> this.image = new ImageIcon("assets/rock.png").getImage();
             case "PAPER" -> this.image = new ImageIcon("assets/paper.png").getImage();
             case "SCISSORS" -> this.image = new ImageIcon("assets/scissors.png").getImage();
             default -> System.out.println("Entity not listed!");
         }
-        this.x = x;
-        this.y = y;
+        this.x = xy[0];
+        this.y = xy[1];
         this.randomizeDirection();
     }
 

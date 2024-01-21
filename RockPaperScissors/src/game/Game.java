@@ -62,24 +62,32 @@ public class Game extends JPanel implements KeyListener, IPanel, ActionListener 
 
     public void setupEntities(int numOfRocks, int numOfPapers, int numOfScissors) {
         for (int i = 0; i < numOfRocks; i++) {
-            this.entities.add(new Entity("ROCK", this.setLocation("X"), this.setLocation("Y")));
+            this.entities.add(new Entity("ROCK", this.setLocation()));
         }
         for (int i = 0; i < numOfPapers; i++) {
-            this.entities.add(new Entity("PAPER", this.setLocation("X"), this.setLocation("Y")));
+            this.entities.add(new Entity("PAPER", this.setLocation()));
         }
         for (int i = 0; i < numOfScissors; i++) {
-            this.entities.add(new Entity("SCISSORS", this.setLocation("X"), this.setLocation("Y")));
+            this.entities.add(new Entity("SCISSORS", this.setLocation()));
         }
     }
 
-    public int setLocation(String index) {
-        if (index.equals("X")) {
-            return random.nextInt((this.WIDTH - 105) - 60) + 60;
-        } else if (index.equals("Y")) {
-            return random.nextInt((this.HEIGHT - 105) -60) + 60;
-        } else {
-            return -1;
+    public int[] setLocation() {
+        int[] xy = { random.nextInt((this.WIDTH - 105) - 60) + 60 , random.nextInt((this.HEIGHT - 105) - 60) + 60 };
+        while (collisionForEntity(xy[0], xy[1])) {
+            xy[0] = random.nextInt((this.WIDTH - 105) - 60) + 60;
+            xy[1] = random.nextInt((this.HEIGHT - 105) - 60) + 60;
         }
+        return xy;
+    }
+
+    public boolean collisionForEntity(int x, int y) {
+        for (Entity value : entities) {
+            if (Math.abs(x - value.getX()) < 50 && Math.abs(y - value.getY()) < 50) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void moveEntities() {
