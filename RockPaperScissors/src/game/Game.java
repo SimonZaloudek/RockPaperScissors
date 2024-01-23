@@ -73,8 +73,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     public boolean collisionForEntity(int x, int y) {
-        for (Entity value : entities) {
-            if (Math.abs(x - value.getX()) < 50 && Math.abs(y - value.getY()) < 50) {
+        for (Entity entity : entities) {
+            if (Math.abs(x - entity.getX()) < 50 && Math.abs(y - entity.getY()) < 50) {
                 return true;
             }
         }
@@ -82,9 +82,37 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     private void moveEntities() {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
+            if (entity.getX() > 1499) {
+                entity.setxDir(-1);
+            }
+            if (entity.getX() < 51) {
+                entity.setxDir(1);
+            }
+            if (entity.getY() > 799) {
+                entity.setyDir(-1);
+            }
+            if (entity.getY() < 51) {
+                entity.setyDir(1);
+            }
             entity.updateX();
             entity.updateY();
+            for (Entity otherEntity : this.entities) {
+                if (entity != otherEntity && entity.collidesWith(otherEntity)) {
+                    entity.randomizeDirection();
+                    this.core(entity, otherEntity);
+                }
+            }
+        }
+    }
+
+    private void core(Entity entity1, Entity entity2) {
+        if (entity1.getEntityType() == 'R' && entity2.getEntityType() == 'S') {
+            entity2.setEntity("ROCK");
+        } else if (entity1.getEntityType() == 'P' && entity2.getEntityType() == 'R') {
+            entity2.setEntity("PAPER");
+        } else if (entity1.getEntityType() == 'S' && entity2.getEntityType() == 'P') {
+            entity2.setEntity("SCISSORS");
         }
     }
 
