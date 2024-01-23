@@ -40,24 +40,20 @@ public class Options implements IPanel {
     }
 
     public void drawPause(Graphics2D g2d) {
-        int width = 300;
-        int height = 400;
-
-        int x = ((this.WIDTH/2) - (width/2));
-        int y = ((this.HEIGHT/2) + (height/2));
+        int x = ((this.WIDTH/2) - (300/2));
+        int y = ((this.HEIGHT/2) + (400/2));
 
         g2d.setColor(Color.BLACK);
-        g2d.fillRoundRect(x, y / 2 - 50, width, height, 10, 10);
+        g2d.fillRoundRect(x, y / 2 - 50, 300, 400, 10, 10);
 
         g2d.setColor(Color.ORANGE);
         Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(10));
-        g2d.drawRoundRect(x, y / 2 - 50, width, height, 10, 10);
+        g2d.drawRoundRect(x, y / 2 - 50, 300, 400, 10, 10);
         g2d.setStroke(tmp);
     }
 
     public void setupButtons() {
-
         if (this.isDrawn) {
             this.game.add(playButton);
             this.game.add(helpButton);

@@ -15,6 +15,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     Timer timer;
     Options options;
+    EndScreen endScreen;
+
+    String winner;
+    int speed = 1;
 
     ArrayList<Entity> entities = new ArrayList<>();
 
@@ -30,6 +34,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         pFrame.setLocationRelativeTo(null);
 
         this.options = new Options(pFrame, this);
+        this.endScreen = new EndScreen(pFrame, this);
 
         if (!this.isVisible()) {
             this.setVisible(true);
@@ -49,15 +54,17 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         this.setVisible(true);
     }
 
+
+    //Spawn, Movement and Collisions
     public void setupEntities(int numOfRocks, int numOfPapers, int numOfScissors) {
         for (int i = 0; i < numOfRocks; i++) {
-            this.entities.add(new Entity("ROCK", this.setLocation()));
+            this.entities.add(new Entity("ROCK", this.setLocation(), this.speed));
         }
         for (int i = 0; i < numOfPapers; i++) {
-            this.entities.add(new Entity("PAPER", this.setLocation()));
+            this.entities.add(new Entity("PAPER", this.setLocation(), this.speed));
         }
         for (int i = 0; i < numOfScissors; i++) {
-            this.entities.add(new Entity("SCISSORS", this.setLocation()));
+            this.entities.add(new Entity("SCISSORS", this.setLocation(), this.speed));
         }
     }
 
@@ -84,35 +91,39 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     private void moveEntities() {
         for (Entity entity : this.entities) {
             if (entity.getX() > 1499) {
-                entity.setxDir(-1);
+                entity.setxDir(-this.speed);
             }
             if (entity.getX() < 51) {
-                entity.setxDir(1);
+                entity.setxDir(this.speed);
             }
             if (entity.getY() > 799) {
-                entity.setyDir(-1);
+                entity.setyDir(-this.speed);
             }
             if (entity.getY() < 51) {
-                entity.setyDir(1);
+                entity.setyDir(this.speed);
             }
+            entity.updateSpeed(this.speed);
             entity.updateX();
             entity.updateY();
             for (Entity otherEntity : this.entities) {
                 if (entity != otherEntity && entity.collidesWith(otherEntity)) {
-                    entity.randomizeDirection();
                     this.core(entity, otherEntity);
                 }
             }
         }
     }
 
+    //Core of the GAME
     private void core(Entity entity1, Entity entity2) {
         if (entity1.getEntityType() == 'R' && entity2.getEntityType() == 'S') {
             entity2.setEntity("ROCK");
+            entity1.collisionHandler(entity2);
         } else if (entity1.getEntityType() == 'P' && entity2.getEntityType() == 'R') {
             entity2.setEntity("PAPER");
+            entity1.collisionHandler(entity2);
         } else if (entity1.getEntityType() == 'S' && entity2.getEntityType() == 'P') {
             entity2.setEntity("SCISSORS");
+            entity1.collisionHandler(entity2);
         }
     }
 
@@ -131,14 +142,66 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
         }
+        g2d.setColor(Color.BLACK);
+        g2d.setFont(new Font("Arial Bold", Font.BOLD, 25));
+        g2d.drawString(("SPEED: " + this.speed), 750, 885);
     }
 
+    //GameLoop and Win Conditions
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.moveEntities();
-        this.repaint();
+        if (!this.winCondition()) {
+            this.moveEntities();
+            this.repaint();
+        } else {
+            timer.stop();
+            this.endScreen.drawEnd((Graphics2D) this.getGraphics(), this.winner);
+        }
     }
 
+    private boolean winCondition() {
+        if (areAllRock()) {
+            this.winner = "ROCK";
+            return true;
+        }
+        if (areAllPaper()) {
+            this.winner = "PAPER";
+            return true;
+        }
+        if (areAllScissors()) {
+            this.winner = "SCISSORS";
+            return true;
+        }
+        return false;
+    }
+
+    private boolean areAllRock() {
+        for (Entity entity : this.entities) {
+            if (entity.getEntityType() == 'P' || entity.getEntityType() == 'S') {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean areAllPaper() {
+        for (Entity entity : this.entities) {
+            if (entity.getEntityType() == 'R' || entity.getEntityType() == 'S') {
+                return false;
+            }
+        }
+        return true;
+    }
+    private boolean areAllScissors() {
+        for (Entity entity : this.entities) {
+            if (entity.getEntityType() == 'P' || entity.getEntityType() == 'R') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    //KeyEvents
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -150,6 +213,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
                 this.options.optionsMenu();
                 this.timer.start();
             }
+        }
+        if (code == KeyEvent.VK_UP) {
+            this.speed++;
+        }
+        if (code == KeyEvent.VK_DOWN) {
+            this.speed--;
         }
     }
     @Override

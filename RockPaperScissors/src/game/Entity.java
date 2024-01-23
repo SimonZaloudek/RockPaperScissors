@@ -17,11 +17,26 @@ public class Entity {
 
     Image image;
 
-    public Entity(String entity, int[] xy) {
+    public Entity(String entity, int[] xy, int speed) {
         this.setEntity(entity);
         this.x = xy[0];
         this.y = xy[1];
-        this.randomizeDirection();
+        this.randomizeDirection(speed);
+    }
+
+    public void updateSpeed(int speed) {
+        if (this.xDir < 0) {
+            xDir = -speed;
+        }
+        if (this.xDir > 0) {
+            xDir = speed;
+        }
+        if (this.yDir < 0) {
+            yDir = -speed;
+        }
+        if (this.yDir > 0) {
+            yDir = speed;
+        }
     }
 
     public Rectangle getBounds() {
@@ -32,9 +47,20 @@ public class Entity {
         return this.getBounds().intersects(anotherEntity.getBounds());
     }
 
-    public void randomizeDirection() {
-        this.xDir = random.nextBoolean() ? 1 : -1;
-        this.yDir = random.nextBoolean() ? 1 : -1;
+    public void collisionHandler(Entity otherEntity) {
+        int tempXDir = this.xDir;
+        int tempYDir = this.yDir;
+
+        this.setxDir(otherEntity.xDir);
+        this.setyDir(otherEntity.yDir);
+
+        otherEntity.setxDir(tempXDir);
+        otherEntity.setyDir(tempYDir);
+    }
+
+    public void randomizeDirection(int speed) {
+        this.xDir = random.nextBoolean() ? speed : -speed;
+        this.yDir = random.nextBoolean() ? speed : -speed;
     }
 
     public void setxDir(int xDir) {

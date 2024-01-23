@@ -14,9 +14,9 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     Frame frame;
 
-    private int rocks = 0;
-    private int scissors = 0;
-    private int papers = 0;
+    private int rocks = 1;
+    private int scissors = 1;
+    private int papers = 1;
 
     PreGameMenu(Frame pFrame) {
         this.frame = pFrame;
@@ -141,7 +141,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
                 }
             }
             case FL -> {
-                if (this.rocks > 0) {
+                if (this.rocks > 1) {
                     this.rocks--;
                     this.repaint();
                 }
@@ -153,7 +153,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
                 }
             }
             case SL -> {
-                if (this.papers > 0) {
+                if (this.papers > 1) {
                     this.papers--;
                     this.repaint();
                 }
@@ -165,7 +165,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
                 }
             }
             case TL -> {
-                if (this.scissors > 0) {
+                if (this.scissors > 1) {
                     this.scissors--;
                     this.repaint();
                 }
