@@ -33,8 +33,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         pFrame.pack();
         pFrame.setLocationRelativeTo(null);
 
+        int[] numOfObj = new int[]{numOfRocks, numOfPapers, numOfScissors};
         this.options = new Options(pFrame, this);
-        this.endScreen = new EndScreen(pFrame, this);
+        this.endScreen = new EndScreen(pFrame, this, numOfObj);
 
         if (!this.isVisible()) {
             this.setVisible(true);
@@ -44,7 +45,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         this.timer = new Timer(0, this);
         this.timer.start();
 
-        this.setupEntities(numOfRocks, numOfPapers, numOfScissors);
+        this.setupEntities(numOfObj[0], numOfObj[1], numOfObj[2]);
     }
 
     public void setupPanel(Color color, int width, int height) {
@@ -145,6 +146,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 25));
         g2d.drawString(("SPEED: " + this.speed), 750, 885);
+        g2d.drawImage(new ImageIcon("assets/downArr.png").getImage(),700,858, 35, 35, null);
+        if (this.speed > 9) {
+            g2d.drawImage(new ImageIcon("assets/upArr.png").getImage(), 890, 858, 35, 35, null);
+        } else {
+            g2d.drawImage(new ImageIcon("assets/upArr.png").getImage(), 880, 858, 35, 35, null);
+        }
     }
 
     //GameLoop and Win Conditions
@@ -215,10 +222,14 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             }
         }
         if (code == KeyEvent.VK_UP) {
-            this.speed++;
+            if (this.speed < 20) {
+                this.speed++;
+            }
         }
         if (code == KeyEvent.VK_DOWN) {
-            this.speed--;
+            if (this.speed > 1) {
+                this.speed--;
+            }
         }
     }
     @Override
