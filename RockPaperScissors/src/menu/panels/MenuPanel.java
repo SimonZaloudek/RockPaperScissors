@@ -43,6 +43,9 @@ public class MenuPanel extends JPanel implements IPanel {
         Button helpButton = new Button(EButtons.HELP,this, 40, 400, 175, 65, "HELP");
         this.add(helpButton);
 
+        Button optionsButton = new Button(EButtons.OPTIONS,this, 40, 550, 175, 65, "OPTIONS");
+        this.add(optionsButton);
+
         Button exitButton = new Button(EButtons.EXIT,this, 40, 695, 175, 65, "EXIT");
         this.add(exitButton);
     }
@@ -57,6 +60,10 @@ public class MenuPanel extends JPanel implements IPanel {
             case HELP -> {
                 this.frame.remove(this);
                 this.frame.add(new HelpPanel(this.frame));
+            }
+            case OPTIONS -> {
+                this.frame.remove(this);
+                this.frame.add(new OptionsPanel(this.frame));
             }
             case EXIT -> System.exit(0);
         }

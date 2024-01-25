@@ -6,6 +6,7 @@ public enum EButtons {
     HELP,
     BACK,
     EXIT,
+    OPTIONS,
     FR,
     FL,
     SR,
