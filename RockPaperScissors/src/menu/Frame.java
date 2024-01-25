@@ -13,6 +13,6 @@ public class Frame extends JFrame {
         ImageIcon icon = new ImageIcon("assets/icon.jpg");
         super.setIconImage(icon.getImage());
 
-        MenuPanel panel = new MenuPanel(this);
+        new MenuPanel(this, null);
     }
 }

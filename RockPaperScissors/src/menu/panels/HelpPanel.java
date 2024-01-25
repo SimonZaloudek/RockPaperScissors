@@ -8,10 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class HelpPanel extends JPanel implements IPanel {
-    Frame frame;
+    private final Frame frame;
+    private final String mapPath;
 
-    HelpPanel(Frame pFrame) {
+    HelpPanel(Frame pFrame, String mapPath) {
         this.frame = pFrame;
+        this.mapPath = mapPath;
 
         this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
@@ -41,7 +43,7 @@ public class HelpPanel extends JPanel implements IPanel {
         switch (button) {
             case MENU, BACK -> {
                 this.frame.remove(this);
-                this.frame.add(new MenuPanel(this.frame));
+                this.frame.add(new MenuPanel(this.frame, this.mapPath));
             }
         }
     }

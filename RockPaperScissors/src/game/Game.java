@@ -16,6 +16,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     Timer timer;
     Options options;
     EndScreen endScreen;
+    private final String mapPath;
 
     String winner;
     int speed = 1;
@@ -24,9 +25,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     Random random = new Random(System.nanoTime());
 
-    public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors) {
+    public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors, String mapPath) {
         super.addKeyListener(this);
 
+        this.mapPath = mapPath;
         this.setupPanel(Color.WHITE, 1600, 900);
 
         pFrame.add(this);
@@ -138,7 +140,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     private void drawGame(Graphics2D g2d) {
-        g2d.drawImage(new ImageIcon("assets/gamePanelMain.png").getImage(),0,0, 1600, 900, null);
+        g2d.drawImage(new ImageIcon(this.mapPath).getImage(),0,0, 1600, 900, null);
 
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
@@ -237,5 +239,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
     @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    public String getMapPath() {
+        return this.mapPath;
     }
 }

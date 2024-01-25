@@ -10,8 +10,13 @@ import java.awt.*;
 public class MenuPanel extends JPanel implements IPanel {
 
     private final Frame frame;
-    public MenuPanel(Frame pFrame) {
+    private String mapPath;
+    public MenuPanel(Frame pFrame, String mapPath) {
         this.frame = pFrame;
+        this.mapPath = mapPath;
+        if (this.mapPath == null || this.mapPath.isEmpty()) {
+            this.mapPath = "assets/gamePanelMain.png";
+        }
 
         this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
@@ -55,11 +60,11 @@ public class MenuPanel extends JPanel implements IPanel {
         switch (button) {
             case PLAY -> {
                 this.frame.remove(this);
-                this.frame.add(new PreGameMenu(this.frame));
+                this.frame.add(new PreGameMenu(this.frame, this.mapPath));
             }
             case HELP -> {
                 this.frame.remove(this);
-                this.frame.add(new HelpPanel(this.frame));
+                this.frame.add(new HelpPanel(this.frame, this.mapPath));
             }
             case OPTIONS -> {
                 this.frame.remove(this);

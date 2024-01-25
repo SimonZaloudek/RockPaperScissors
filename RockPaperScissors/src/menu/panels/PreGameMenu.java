@@ -12,14 +12,17 @@ import java.awt.event.KeyListener;
 
 public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
-    Frame frame;
+    private final Frame frame;
+    private final String mapPath;
 
     private int rocks = 1;
     private int scissors = 1;
     private int papers = 1;
 
-    PreGameMenu(Frame pFrame) {
+    PreGameMenu(Frame pFrame, String mapPath) {
         this.frame = pFrame;
+        this.mapPath = mapPath;
+
         super.addKeyListener(this);
 
         this.setupPanel(Color.BLACK, 600, 800);
@@ -128,11 +131,11 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
         switch (button) {
             case MENU, BACK -> {
                 this.frame.remove(this);
-                this.frame.add(new MenuPanel(this.frame));
+                this.frame.add(new MenuPanel(this.frame, this.mapPath));
             }
             case PLAY -> {
                 this.frame.remove(this);
-                this.frame.add(new Game(this.frame, this.rocks, this.papers, this.scissors));
+                this.frame.add(new Game(this.frame, this.rocks, this.papers, this.scissors, this.mapPath));
             }
             case FR -> {
                 if (this.rocks < 30) {

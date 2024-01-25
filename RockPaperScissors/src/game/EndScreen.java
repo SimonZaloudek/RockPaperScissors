@@ -74,11 +74,11 @@ public class EndScreen implements IPanel {
         switch (button) {
             case PLAY -> {
                 this.frame.remove(this.game);
-                this.frame.add(new Game(this.frame, this.numOfObj[0], this.numOfObj[1], this.numOfObj[2]));
+                this.frame.add(new Game(this.frame, this.numOfObj[0], this.numOfObj[1], this.numOfObj[2], this.game.getMapPath()));
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame));
+                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath()));
             }
             case EXIT -> System.exit(0);
         }

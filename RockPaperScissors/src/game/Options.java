@@ -78,7 +78,7 @@ public class Options implements IPanel {
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame));
+                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath()));
             }
             case EXIT -> System.exit(0);
         }
