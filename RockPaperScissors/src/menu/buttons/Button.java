@@ -13,20 +13,16 @@ public class Button extends JButton implements MouseListener {
     IPanel panel;
     EButtons button;
 
-    public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight, String text) {
+    public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight, String text, int var) {
         super.addMouseListener(this);
         this.panel = pPanel;
         this.button = pButton;
-
-        this.genericButton(x, y, pWidth, pHeight, text);
-    }
-
-    public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight, int var) {
-        super.addMouseListener(this);
-        this.panel = pPanel;
-        this.button = pButton;
-
-        this.imageButton(x, y, pWidth, pHeight, var);
+        if (var == 0) {
+            this.genericButton(x, y, pWidth, pHeight, text);
+        }
+        if (var == 1) {
+            this.imageButton(x, y, pWidth, pHeight, text);
+        }
     }
 
     public void genericButton(int x, int y, int pWidth, int pHeight, String text) {
@@ -39,19 +35,9 @@ public class Button extends JButton implements MouseListener {
         super.setVisible(true);
     }
 
-    public void imageButton(int x, int y, int width, int height, int var) {
+    public void imageButton(int x, int y, int width, int height, String path) {
         super.setBounds(x, y, width, height);
         super.setBorder(BorderFactory.createEmptyBorder());
-        String path;
-        if (var == 1) {
-            path = "assets/peto.png";
-        } else if (var == 2) {
-            path = "assets/buttonL.png";
-        } else if (var == 3) {
-            path = "assets/buttonR.png";
-        } else {
-            path = "";
-        }
         ImageIcon buttonIcon = new ImageIcon(path);
         super.setIcon(buttonIcon);
         super.setVisible(true);

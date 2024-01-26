@@ -10,14 +10,17 @@ public class Entity {
     private int y;
 
     private static final Random random = new Random(System.nanoTime());
-    int xDir;
-    int yDir;
+    private int xDir;
+    private int yDir;
 
-    char entityType;
+    private char entityType;
+    private final String[] skinPaths;
 
-    Image image;
+    private Image image;
 
-    public Entity(String entity, int[] xy, int speed) {
+
+    public Entity(String entity, int[] xy, int speed, String[] skinPaths) {
+        this.skinPaths = skinPaths;
         this.setEntity(entity);
         this.x = xy[0];
         this.y = xy[1];
@@ -74,15 +77,15 @@ public class Entity {
     public void setEntity(String entity) {
         switch (entity) {
             case "ROCK" -> {
-                this.image = new ImageIcon("assets/rock.png").getImage();
+                this.image = new ImageIcon(this.skinPaths[1]).getImage();
                 this.entityType = 'R';
             }
             case "PAPER" -> {
-                this.image = new ImageIcon("assets/paper.png").getImage();
+                this.image = new ImageIcon(this.skinPaths[3]).getImage();
                 this.entityType = 'P';
             }
             case "SCISSORS" -> {
-                this.image = new ImageIcon("assets/scissors.png").getImage();
+                this.image = new ImageIcon(this.skinPaths[5]).getImage();
                 this.entityType = 'S';
             }
             default -> System.out.println("Entity not listed!");

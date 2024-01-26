@@ -18,9 +18,9 @@ public class EndScreen implements IPanel {
     private final Game game;
     private final int[] numOfObj;
 
-    Button playButton = new Button(EButtons.PLAY, this, ((this.WIDTH/2) - (120)), 535, 235, 75, "PLAY AGAIN");
-    Button helpButton = new Button(EButtons.MENU, this, ((this.WIDTH/2) - (115)), 620, 225, 75, "MENU");
-    Button menuButton = new Button(EButtons.EXIT, this, ((this.WIDTH/2) - (115)), 705, 225, 75, "EXIT");
+    Button playButton = new Button(EButtons.PLAY, this, ((this.WIDTH/2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
+    Button helpButton = new Button(EButtons.MENU, this, ((this.WIDTH/2) - (115)), 620, 225, 75, "MENU", 0);
+    Button menuButton = new Button(EButtons.EXIT, this, ((this.WIDTH/2) - (115)), 705, 225, 75, "EXIT", 0);
 
     public EndScreen(Frame frame, Game game, int[] numOfObj) {
         this.frame = frame;
@@ -49,15 +49,15 @@ public class EndScreen implements IPanel {
         g2d.drawString("WINNER IS:", this.WIDTH / 2 - 115, 355);
         switch (winner) {
             case "ROCK" ->
-                    g2d.drawImage(new ImageIcon("assets/menuRock.png").getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.WIDTH / 2 - 50, 400, null);
             case "PAPER" ->
-                    g2d.drawImage(new ImageIcon("assets/menuPaper.png").getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.WIDTH / 2 - 50, 400, null);
             case "SCISSORS" ->
-                    g2d.drawImage(new ImageIcon("assets/menuScissors.png").getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.WIDTH / 2 - 50, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
 
-        g2d.drawImage(new ImageIcon("assets/peto.png").getImage(), x + 40, y/2 + 50 + 40, 420, 150, null);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/peto.png").getImage(), x + 40, y/2 + 50 + 40, 420, 150, null);
     }
 
     public void setupButtons() {
@@ -74,11 +74,11 @@ public class EndScreen implements IPanel {
         switch (button) {
             case PLAY -> {
                 this.frame.remove(this.game);
-                this.frame.add(new Game(this.frame, this.numOfObj[0], this.numOfObj[1], this.numOfObj[2], this.game.getMapPath()));
+                this.frame.add(new Game(this.frame, this.numOfObj[0], this.numOfObj[1], this.numOfObj[2], this.game.getMapPath(), this.game.getSkinPaths()));
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath()));
+                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
             }
             case EXIT -> System.exit(0);
         }

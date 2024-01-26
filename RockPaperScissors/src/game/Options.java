@@ -11,15 +11,14 @@ import java.awt.*;
 public class Options implements IPanel {
 
     private final int WIDTH = 1600;
-    private final int HEIGHT = 900;
 
     private final Frame frame;
     private final Game game;
     private boolean isDrawn = false;
 
-    Button playButton = new Button(EButtons.PLAY, this, ((this.WIDTH/2) - (95)), 310, 185, 65, "RESUME");
-    Button helpButton = new Button(EButtons.MENU, this, ((this.WIDTH/2) - (90)), 440, 175, 65, "MENU");
-    Button menuButton = new Button(EButtons.EXIT, this, ((this.WIDTH/2) - (90)), 570, 175, 65, "EXIT");
+    Button playButton = new Button(EButtons.PLAY, this, ((this.WIDTH/2) - (95)), 310, 185, 65, "RESUME", 0);
+    Button helpButton = new Button(EButtons.MENU, this, ((this.WIDTH/2) - (90)), 440, 175, 65, "MENU", 0);
+    Button menuButton = new Button(EButtons.EXIT, this, ((this.WIDTH/2) - (90)), 570, 175, 65, "EXIT", 0);
 
     public Options(Frame frame, Game game) {
         this.frame = frame;
@@ -41,7 +40,8 @@ public class Options implements IPanel {
 
     public void drawPause(Graphics2D g2d) {
         int x = ((this.WIDTH/2) - (300/2));
-        int y = ((this.HEIGHT/2) + (400/2));
+        int HEIGHT = 900;
+        int y = ((HEIGHT /2) + (400/2));
 
         g2d.setColor(Color.BLACK);
         g2d.fillRoundRect(x, y / 2 - 50, 300, 400, 10, 10);
@@ -73,12 +73,12 @@ public class Options implements IPanel {
         switch (button) {
             case PLAY -> {
                 this.optionsMenu();
-                game.timer.start();
+                game.getTimer().start();
                 game.requestFocus();
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath()));
+                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
             }
             case EXIT -> System.exit(0);
         }

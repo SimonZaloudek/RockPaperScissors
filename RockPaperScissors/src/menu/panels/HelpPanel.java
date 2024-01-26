@@ -10,10 +10,12 @@ import java.awt.*;
 public class HelpPanel extends JPanel implements IPanel {
     private final Frame frame;
     private final String mapPath;
+    private final String[] skinPaths;
 
-    HelpPanel(Frame pFrame, String mapPath) {
+    HelpPanel(Frame pFrame, String mapPath, String[] skinPaths) {
         this.frame = pFrame;
         this.mapPath = mapPath;
+        this.skinPaths = skinPaths;
 
         this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
@@ -31,10 +33,10 @@ public class HelpPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, 1);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/peto.png",1);
         this.add(menuButton);
 
-        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK");
+        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK", 0);
         this.add(backButton);
     }
 
@@ -43,7 +45,7 @@ public class HelpPanel extends JPanel implements IPanel {
         switch (button) {
             case MENU, BACK -> {
                 this.frame.remove(this);
-                this.frame.add(new MenuPanel(this.frame, this.mapPath));
+                this.frame.add(new MenuPanel(this.frame, this.mapPath, this.skinPaths));
             }
         }
     }
