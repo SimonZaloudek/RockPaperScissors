@@ -11,11 +11,11 @@ public class OptionsPanel extends JPanel implements IPanel {
 
     private final Frame frame;
 
-    private final String[] mapList = {"assets/ARENAS/mainArena.png", "assets/ARENAS/redArena.png"};
+    private final String[] mapList = {"assets/ARENAS/mainArena.png", "assets/ARENAS/redArena.png", "assets/ARENAS/stoneArena.png", "assets/ARENAS/woodArena.png", "assets/ARENAS/mcArena.png"};
 
-    private final String[] rockSkins = { "assets/RPS/menuRock.png" , "assets/RPS/rock.png", "assets/RPS/menuRedRock.png", "assets/RPS/redRock.png" };
-    private final String[] paperSkins = { "assets/RPS/menuPaper.png" , "assets/RPS/paper.png", "assets/RPS/menuRedPaper.png", "assets/RPS/redPaper.png" };
-    private final String[] scissorSkins = { "assets/RPS/menuScissors.png" , "assets/RPS/scissors.png", "assets/RPS/menuRedScissors.png", "assets/RPS/redScissors.png" };
+    private final String[] rockSkins = { "assets/RPS/menuRock.png" , "assets/RPS/rock.png", "assets/RPS/menuMcRock.png", "assets/RPS/McRock.png", "assets/RPS/menuHandRock.png", "assets/RPS/handRock.png" };
+    private final String[] paperSkins = { "assets/RPS/menuPaper.png" , "assets/RPS/paper.png", "assets/RPS/menuMcPaper.png", "assets/RPS/McPaper.png", "assets/RPS/menuHandPaper.png", "assets/RPS/handPaper.png" };
+    private final String[] scissorSkins = { "assets/RPS/menuScissors.png" , "assets/RPS/scissors.png", "assets/RPS/menuMcScissors.png", "assets/RPS/McScissors.png", "assets/RPS/menuHandScissors.png", "assets/RPS/handScissors.png" };
 
     private int menuRockNumber = 0;
     private int menuPaperNumber = 0;
@@ -44,7 +44,7 @@ public class OptionsPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/peto.png", 1);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.add(menuButton);
 
         Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK", 0);
@@ -111,13 +111,13 @@ public class OptionsPanel extends JPanel implements IPanel {
                 }
             }
             case FR -> {
-                if(this.mapNumber < 1) {
+                if(this.mapNumber < 4) {
                     this.mapNumber++;
                     this.repaint();
                 }
             }
             case SL -> {
-                if (this.menuRockNumber < 2) {
+                if (this.menuRockNumber < 4) {
                     this.menuRockNumber = this.menuRockNumber + 2;
                     this.repaint();
                 } else {
@@ -125,7 +125,7 @@ public class OptionsPanel extends JPanel implements IPanel {
                 }
             }
             case SR -> {
-                if (this.menuPaperNumber < 2) {
+                if (this.menuPaperNumber < 4) {
                     this.menuPaperNumber = this.menuPaperNumber + 2;
                     this.repaint();
                 } else {
@@ -133,7 +133,7 @@ public class OptionsPanel extends JPanel implements IPanel {
                 }
             }
             case TL -> {
-                if (this.menuScissorsNumber < 2) {
+                if (this.menuScissorsNumber < 4) {
                     this.menuScissorsNumber = this.menuScissorsNumber + 2;
                     this.repaint();
                 } else {

@@ -49,15 +49,15 @@ public class EndScreen implements IPanel {
         g2d.drawString("WINNER IS:", this.WIDTH / 2 - 115, 355);
         switch (winner) {
             case "ROCK" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.WIDTH / 2 - 55, 400, null);
             case "PAPER" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.WIDTH / 2 - 55, 400, null);
             case "SCISSORS" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.WIDTH / 2 - 50, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.WIDTH / 2 - 55, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
 
-        g2d.drawImage(new ImageIcon("assets/BUTTONS/peto.png").getImage(), x + 40, y/2 + 50 + 40, 420, 150, null);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/rpsMainLogo.png").getImage(), x + 30, y/2 + 50 + 40, 440, 140, null);
     }
 
     public void setupButtons() {

@@ -44,20 +44,51 @@ public class MenuPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/peto.png", 1);
+        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.add(menuButton);
 
-        Button playButton = new Button(EButtons.PLAY,this, 40, 250, 175, 75, "PLAY", 0);
+        Button playButton = new Button(EButtons.PLAY,this, 40, 235, 175, 75, "PLAY", 0);
         this.add(playButton);
 
-        Button helpButton = new Button(EButtons.HELP,this, 40, 400, 175, 65, "HELP", 0);
+        Button helpButton = new Button(EButtons.HELP,this, 40, 365, 175, 65, "HELP", 0);
         this.add(helpButton);
 
-        Button optionsButton = new Button(EButtons.OPTIONS,this, 40, 550, 175, 65, "OPTIONS", 0);
+        Button optionsButton = new Button(EButtons.OPTIONS,this, 40, 495, 175, 65, "OPTIONS", 0);
         this.add(optionsButton);
 
-        Button exitButton = new Button(EButtons.EXIT,this, 40, 695, 175, 65, "EXIT", 0);
+        Button exitButton = new Button(EButtons.EXIT,this, 40, 680, 175, 65, "EXIT", 0);
         this.add(exitButton);
+    }
+
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        this.menuDesign(g2d);
+    }
+
+    public void menuDesign(Graphics2D g2d) {
+
+        //g2d.setColor(Color.ORANGE);
+        //g2d.fillRoundRect(380, 235, 140, 140, 0, 0);
+        //g2d.fillRoundRect(380, 420, 140, 140, 0, 0);
+        //g2d.fillRoundRect(380, 605, 140, 140, 0, 0);
+
+        //g2d.setColor(Color.ORANGE.darker());
+        //Stroke stroke = g2d.getStroke();
+        //g2d.setStroke(new BasicStroke(10));
+        //g2d.drawRoundRect(380, 235, 140, 140, 0, 0);
+        //g2d.drawRoundRect(380, 420, 140, 140, 0, 0);
+        //g2d.drawRoundRect(380, 605, 140, 140, 0, 0);
+        //g2d.setStroke(stroke);
+
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 235, 140, 140, null);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 420, 140, 140, null);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 605, 140, 140, null);
+
+        g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), 400, 255, 100, 100, null);
+        g2d.drawImage(new ImageIcon(this.skinPaths[2]).getImage(), 400, 440, 100, 100, null);
+        g2d.drawImage(new ImageIcon(this.skinPaths[4]).getImage(), 400, 625, 100, 100, null);
     }
 
     @Override

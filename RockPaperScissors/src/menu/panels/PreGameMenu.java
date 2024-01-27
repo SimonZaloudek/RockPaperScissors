@@ -91,7 +91,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     private void setupButtons() {
 
-            Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/peto.png",1);
+            Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png",1);
             this.add(menuButton);
 
             Button backButton = new Button(EButtons.BACK, this, 40, 695, 175, 65, "BACK", 0);
