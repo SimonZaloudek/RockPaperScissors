@@ -2,16 +2,19 @@ package menu.buttons;
 
 import menu.panels.IPanel;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Button extends JButton implements MouseListener {
 
-    IPanel panel;
-    EButtons button;
+    private final IPanel panel;
+    private final EButtons button;
 
     public Button(EButtons pButton, IPanel pPanel, int x, int y, int pWidth, int pHeight, String text, int var) {
         super.addMouseListener(this);

@@ -4,8 +4,13 @@ import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class OptionsPanel extends JPanel implements IPanel {
 
@@ -19,7 +24,7 @@ public class OptionsPanel extends JPanel implements IPanel {
 
     private int menuRockNumber = 0;
     private int menuPaperNumber = 0;
-    private int menuScissorsNumber =0;
+    private int menuScissorsNumber = 0;
 
     private int mapNumber = 0;
 
@@ -44,26 +49,32 @@ public class OptionsPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
+        Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.add(menuButton);
 
-        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK", 0);
+        Button backButton = new Button(EButtons.BACK, this, 40, 695, 175, 65, "BACK", 0);
         this.add(backButton);
 
         Button mapLButton = new Button(EButtons.FL, this, 25, 310, 100, 58, "assets/BUTTONS/buttonL.png", 1);
         this.add(mapLButton);
 
-        Button mapRButton = new Button(EButtons.FR, this, 475, 310, 100, 58, "assets/BUTTONS/buttonR.png",1);
+        Button mapRButton = new Button(EButtons.FR, this, 475, 310, 100, 58, "assets/BUTTONS/buttonR.png", 1);
         this.add(mapRButton);
 
-        Button rockButton = new Button(EButtons.SL, this, 75, 520, 100, 100, null,0);
-        this.add(rockButton); rockButton.setOpaque(false); rockButton.setContentAreaFilled(false);
+        Button rockButton = new Button(EButtons.SL, this, 75, 520, 100, 100, null, 0);
+        this.add(rockButton);
+        rockButton.setOpaque(false);
+        rockButton.setContentAreaFilled(false);
 
-        Button paperButton = new Button(EButtons.SR, this, 250, 520, 100, 100, null,0);
-        this.add(paperButton); paperButton.setOpaque(false); paperButton.setContentAreaFilled(false);
+        Button paperButton = new Button(EButtons.SR, this, 250, 520, 100, 100, null, 0);
+        this.add(paperButton);
+        paperButton.setOpaque(false);
+        paperButton.setContentAreaFilled(false);
 
-        Button scissorsButton = new Button(EButtons.TL, this, 425, 520, 100, 100, null,0);
-        this.add(scissorsButton); scissorsButton.setOpaque(false); scissorsButton.setContentAreaFilled(false);
+        Button scissorsButton = new Button(EButtons.TL, this, 425, 520, 100, 100, null, 0);
+        this.add(scissorsButton);
+        scissorsButton.setOpaque(false);
+        scissorsButton.setContentAreaFilled(false);
     }
 
     public void paint(Graphics g) {
@@ -80,7 +91,7 @@ public class OptionsPanel extends JPanel implements IPanel {
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 30));
         g2d.drawString("ARENA:", 240, 240);
 
-        g2d.drawImage(new ImageIcon(this.mapList[this.mapNumber]).getImage(), 150, 260,300, 150, null);
+        g2d.drawImage(new ImageIcon(this.mapList[this.mapNumber]).getImage(), 150, 260, 300, 150, null);
 
         g2d.drawString("SKINS:", 248, 490);
 
@@ -102,16 +113,16 @@ public class OptionsPanel extends JPanel implements IPanel {
             case MENU, BACK -> {
                 this.setupSkins();
                 this.frame.remove(this);
-                this.frame.add(new MenuPanel(this.frame, this.mapList[mapNumber], this.setupSkins()));
+                this.frame.add(new MenuPanel(this.frame, this.mapList[this.mapNumber], this.setupSkins()));
             }
             case FL -> {
-                if(this.mapNumber > 0) {
+                if (this.mapNumber > 0) {
                     this.mapNumber--;
                     this.repaint();
                 }
             }
             case FR -> {
-                if(this.mapNumber < 4) {
+                if (this.mapNumber < 4) {
                     this.mapNumber++;
                     this.repaint();
                 }

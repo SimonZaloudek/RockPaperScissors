@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CheckStyle-IDEA" serialisationVersion="2">
-    <checkstyleVersion>10.0</checkstyleVersion>
+    <checkstyleVersion>10.13.0</checkstyleVersion>
     <scanScope>JavaOnly</scanScope>
     <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
-      <option value="e593447f-a53a-43dc-a1b0-35c9d5ce8231" />
+      <option value="ae29ad98-1a00-4826-86bf-54fe1bdbd5c5" />
     </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="e593447f-a53a-43dc-a1b0-35c9d5ce8231" type="HTTP_URL" scope="All" description="Checkstyle FRI">https://raw.githubusercontent.com/infjava/BlueJFRI/master/data/checkstyle/default_checks.xml</ConfigurationLocation>
+        <ConfigurationLocation id="ae29ad98-1a00-4826-86bf-54fe1bdbd5c5" type="HTTP_URL" scope="All" description="CheckstyleFRI">https://raw.githubusercontent.com/infjava/BlueJFRI/master/data/checkstyle/default_checks.xml</ConfigurationLocation>
       </list>
     </option>
   </component>

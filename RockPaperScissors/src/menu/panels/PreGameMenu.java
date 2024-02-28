@@ -5,8 +5,15 @@ import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -58,12 +65,12 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     public void drawPanel(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
-        g2d.fillRoundRect(50,210,500, 445, 0, 0);
+        g2d.fillRoundRect(50, 210, 500, 445, 0, 0);
 
         g2d.setColor(Color.ORANGE);
         Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(10));
-        g2d.drawRoundRect(50,210,500, 445, 0, 0);
+        g2d.drawRoundRect(50, 210, 500, 445, 0, 0);
         g2d.setStroke(tmp);
 
         g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), 80, 240, null);
@@ -72,7 +79,9 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 30));
 
-        int rX = 401; int pX = 401; int sX = 401;
+        int rX = 401;
+        int pX = 401;
+        int sX = 401;
         if (this.rocks > 9) {
             rX = 395;
         }
@@ -91,41 +100,38 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     private void setupButtons() {
 
-            Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png",1);
-            this.add(menuButton);
+        Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
+        this.add(menuButton);
 
-            Button backButton = new Button(EButtons.BACK, this, 40, 695, 175, 65, "BACK", 0);
-            this.add(backButton);
+        Button backButton = new Button(EButtons.BACK, this, 40, 695, 175, 65, "BACK", 0);
+        this.add(backButton);
 
-            Button startButton = new Button(EButtons.PLAY, this, 385, 695, 175, 65, "START", 0);
-            this.add(startButton);
+        Button startButton = new Button(EButtons.PLAY, this, 385, 695, 175, 65, "START", 0);
+        this.add(startButton);
 
+        Button arrowRightButton1 = new Button(EButtons.FR, this, 440, 260, 100, 58, "assets/BUTTONS/buttonR.png", 1);
+        this.add(arrowRightButton1);
+        arrowRightButton1.repaint();
 
-            Button arrowRightButton1 = new Button(EButtons.FR, this, 440, 260, 100, 58, "assets/BUTTONS/buttonR.png",1);
-            this.add(arrowRightButton1);
-            arrowRightButton1.repaint();
+        Button arrowLeftButton1 = new Button(EButtons.FL, this, 280, 260, 100, 58, "assets/BUTTONS/buttonL.png", 1);
+        this.add(arrowLeftButton1);
+        arrowLeftButton1.repaint();
 
-            Button arrowLeftButton1 = new Button(EButtons.FL, this, 280, 260, 100, 58, "assets/BUTTONS/buttonL.png",1);
-            this.add(arrowLeftButton1);
-            arrowLeftButton1.repaint();
+        Button arrowRightButton2 = new Button(EButtons.SR, this, 440, 402, 100, 58, "assets/BUTTONS/buttonR.png", 1);
+        this.add(arrowRightButton2);
+        arrowRightButton2.repaint();
 
+        Button arrowLeftButton2 = new Button(EButtons.SL, this, 280, 402, 100, 58, "assets/BUTTONS/buttonL.png", 1);
+        this.add(arrowLeftButton2);
+        arrowLeftButton2.repaint();
 
-            Button arrowRightButton2 = new Button(EButtons.SR, this, 440, 402, 100, 58, "assets/BUTTONS/buttonR.png",1);
-            this.add(arrowRightButton2);
-            arrowRightButton2.repaint();
+        Button arrowRightButton3 = new Button(EButtons.TR, this, 440, 545, 100, 58, "assets/BUTTONS/buttonR.png", 1);
+        this.add(arrowRightButton3);
+        arrowRightButton3.repaint();
 
-            Button arrowLeftButton2 = new Button(EButtons.SL, this, 280, 402, 100, 58, "assets/BUTTONS/buttonL.png",1);
-            this.add(arrowLeftButton2);
-            arrowLeftButton2.repaint();
-
-
-            Button arrowRightButton3 = new Button(EButtons.TR, this, 440, 545, 100, 58, "assets/BUTTONS/buttonR.png",1);
-            this.add(arrowRightButton3);
-            arrowRightButton3.repaint();
-
-            Button arrowLeftButton3 = new Button(EButtons.TL, this, 280, 545, 100, 58, "assets/BUTTONS/buttonL.png",1);
-            this.add(arrowLeftButton3);
-            arrowLeftButton3.repaint();
+        Button arrowLeftButton3 = new Button(EButtons.TL, this, 280, 545, 100, 58, "assets/BUTTONS/buttonL.png", 1);
+        this.add(arrowLeftButton3);
+        arrowLeftButton3.repaint();
     }
 
     @Override

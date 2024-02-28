@@ -1,7 +1,8 @@
 package game;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.Random;
 
 public class Entity {
@@ -9,7 +10,7 @@ public class Entity {
     private int x;
     private int y;
 
-    private static final Random random = new Random(System.nanoTime());
+    private final Random random = new Random(System.nanoTime());
     private int xDir;
     private int yDir;
 
@@ -29,16 +30,16 @@ public class Entity {
 
     public void updateSpeed(int speed) {
         if (this.xDir < 0) {
-            xDir = -speed;
+            this.xDir = -speed;
         }
         if (this.xDir > 0) {
-            xDir = speed;
+            this.xDir = speed;
         }
         if (this.yDir < 0) {
-            yDir = -speed;
+            this.yDir = -speed;
         }
         if (this.yDir > 0) {
-            yDir = speed;
+            this.yDir = speed;
         }
     }
 
@@ -62,8 +63,8 @@ public class Entity {
     }
 
     public void randomizeDirection(int speed) {
-        this.xDir = random.nextBoolean() ? speed : -speed;
-        this.yDir = random.nextBoolean() ? speed : -speed;
+        this.xDir = this.random.nextBoolean() ? speed : -speed;
+        this.yDir = this.random.nextBoolean() ? speed : -speed;
     }
 
     public void setxDir(int xDir) {
@@ -93,11 +94,11 @@ public class Entity {
     }
 
     public char getEntityType() {
-        return entityType;
+        return this.entityType;
     }
 
     public int getX() {
-        return x;
+        return this.x;
     }
 
     public void updateX() {
@@ -105,7 +106,7 @@ public class Entity {
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public void updateY() {

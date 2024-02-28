@@ -1,7 +1,8 @@
 package menu;
 import menu.panels.MenuPanel;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 public class Frame extends JFrame {
     public Frame() {

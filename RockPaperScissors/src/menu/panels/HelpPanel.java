@@ -4,8 +4,12 @@ import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class HelpPanel extends JPanel implements IPanel {
     private final Frame frame;
@@ -33,16 +37,16 @@ public class HelpPanel extends JPanel implements IPanel {
 
     public void setupButtons() {
 
-        Button menuButton = new Button(EButtons.MENU,this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png",1);
+        Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.add(menuButton);
 
-        Button backButton = new Button(EButtons.BACK,this, 40, 695, 175, 65, "BACK", 0);
+        Button backButton = new Button(EButtons.BACK, this, 40, 695, 175, 65, "BACK", 0);
         this.add(backButton);
     }
 
     public void paint(Graphics g) {
         super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D)g;
 
         g2d.drawImage(new ImageIcon("assets/helpPanel.png").getImage(), 50, 230, 500, 415, null);
     }
