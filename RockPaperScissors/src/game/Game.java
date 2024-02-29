@@ -2,8 +2,14 @@ package game;
 
 import menu.Frame;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,7 +26,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     private final String[] skinPaths;
 
     private String winner;
-    int speed = 1;
+    private int speed = 1;
 
     private final ArrayList<Entity> entities = new ArrayList<>();
 
@@ -74,18 +80,18 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     public int[] setLocation() {
-        int WIDTH = 1600;
-        int HEIGHT = 900;
-        int[] xy = { random.nextInt((WIDTH - 105) - 60) + 60 , random.nextInt((HEIGHT - 105) - 60) + 60 };
-        while (collisionForEntity(xy[0], xy[1])) {
-            xy[0] = random.nextInt((WIDTH - 105) - 60) + 60;
-            xy[1] = random.nextInt((HEIGHT - 105) - 60) + 60;
+        int width = 1600;
+        int height = 900;
+        int[] xy = { this.random.nextInt((width - 105) - 60) + 60 , this.random.nextInt((height - 105) - 60) + 60 };
+        while (this.collisionForEntity(xy[0], xy[1])) {
+            xy[0] = this.random.nextInt((width - 105) - 60) + 60;
+            xy[1] = this.random.nextInt((height - 105) - 60) + 60;
         }
         return xy;
     }
 
     public boolean collisionForEntity(int x, int y) {
-        for (Entity entity : entities) {
+        for (Entity entity : this.entities) {
             if (Math.abs(x - entity.getX()) < 50 && Math.abs(y - entity.getY()) < 50) {
                 return true;
             }
@@ -142,7 +148,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     private void drawGame(Graphics2D g2d) {
-        g2d.drawImage(new ImageIcon(this.mapPath).getImage(),0,0, 1600, 900, null);
+        g2d.drawImage(new ImageIcon(this.mapPath).getImage(), 0, 0, 1600, 900, null);
 
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
@@ -150,7 +156,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 25));
         g2d.drawString(("SPEED: " + this.speed), 750, 885);
-        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(),700,858, 35, 35, null);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(), 700, 858, 35, 35, null);
         if (this.speed > 9) {
             g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), 890, 858, 35, 35, null);
         } else {
@@ -165,21 +171,21 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             this.moveEntities();
             this.repaint();
         } else {
-            timer.stop();
-            this.endScreen.drawEnd((Graphics2D) this.getGraphics(), this.winner);
+            this.timer.stop();
+            this.endScreen.drawEnd((Graphics2D)this.getGraphics(), this.winner);
         }
     }
 
     private boolean winCondition() {
-        if (areAllRock()) {
+        if (this.areAllRock()) {
             this.winner = "ROCK";
             return true;
         }
-        if (areAllPaper()) {
+        if (this.areAllPaper()) {
             this.winner = "PAPER";
             return true;
         }
-        if (areAllScissors()) {
+        if (this.areAllScissors()) {
             this.winner = "SCISSORS";
             return true;
         }
@@ -216,7 +222,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if(code == KeyEvent.VK_ESCAPE) {
+        if (code == KeyEvent.VK_ESCAPE) {
             if (this.timer.isRunning()) {
                 this.options.optionsMenu();
                 this.timer.stop();
