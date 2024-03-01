@@ -56,6 +56,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         this.timer.start();
 
         this.setupEntities(numOfObj[0], numOfObj[1], numOfObj[2]);
+
     }
 
     public void setupPanel(Color color, int width, int height) {
