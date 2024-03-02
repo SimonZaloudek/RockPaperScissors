@@ -27,6 +27,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     private String winner;
     private int speed = 1;
+    private final float startTime;
+
+    private double elapsedTime;
 
     private final ArrayList<Entity> entities = new ArrayList<>();
 
@@ -34,6 +37,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors, String mapPath, String[] skinPaths) {
         super.addKeyListener(this);
+        this.startTime = System.nanoTime();
 
         this.mapPath = mapPath;
         this.skinPaths = skinPaths;
@@ -54,7 +58,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
         this.timer = new Timer(0, this);
         this.timer.start();
-
         this.setupEntities(numOfObj[0], numOfObj[1], numOfObj[2]);
 
     }
@@ -173,6 +176,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             this.repaint();
         } else {
             this.timer.stop();
+            float endTime = System.nanoTime();
+            this.elapsedTime = ((double)(endTime - this.startTime) / 1000000000);
             this.endScreen.drawEnd((Graphics2D)this.getGraphics(), this.winner);
         }
     }
@@ -260,5 +265,9 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     public Timer getTimer() {
         return this.timer;
+    }
+
+    public double getElapsedTime() {
+        return this.elapsedTime;
     }
 }

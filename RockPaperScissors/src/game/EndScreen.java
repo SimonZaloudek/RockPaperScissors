@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.text.DecimalFormat;
 
 public class EndScreen implements IPanel {
 
@@ -61,6 +62,8 @@ public class EndScreen implements IPanel {
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
 
+        g2d.setFont(new Font("Arial", Font.PLAIN, 15));
+        g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", this.width / 2 + 80, 520);
         g2d.drawImage(new ImageIcon("assets/BUTTONS/rpsMainLogo.png").getImage(), x + 30, y / 2 + 50 + 40, 440, 140, null);
     }
 
