@@ -17,12 +17,14 @@ import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+//Trieda ktora vykresluje panel pred zaciatkom hry, uzivatel si voli moznosti simulatora
 public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     private final Frame frame;
     private final String mapPath;
     private final String[] skinPaths;
 
+    //pocet vykreslenych objektov
     private int rocks = 1;
     private int scissors = 1;
     private int papers = 1;
@@ -34,6 +36,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
         super.addKeyListener(this);
 
+        //Zakladne nastavenie panelu
         this.setupPanel(Color.BLACK, 600, 800);
         this.setupButtons();
 
@@ -63,6 +66,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     }
 
+    //Dizajn panelu
     public void drawPanel(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         g2d.fillRoundRect(50, 210, 500, 445, 0, 0);
@@ -73,12 +77,14 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
         g2d.drawRoundRect(50, 210, 500, 445, 0, 0);
         g2d.setStroke(tmp);
 
+        //Vykreslovanie spravnych skinov
         g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), 80, 240, null);
         g2d.drawImage(new ImageIcon(this.skinPaths[2]).getImage(), 80, 382, null);
         g2d.drawImage(new ImageIcon(this.skinPaths[4]).getImage(), 80, 525, null);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 30));
 
+        //Fix grafickej chyby pri dvojcifernom cisle
         int rX = 401;
         int pX = 401;
         int sX = 401;
@@ -134,6 +140,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
         arrowLeftButton3.repaint();
     }
 
+    //Pouzivanie roznych tlacidiel
     @Override
     public void onButtonClick(EButtons button) {
         switch (button) {
@@ -189,6 +196,7 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
 
     }
 
+    //Pouzitie tlacidla ESCAPE na zrychlene nastavenie maximalneho poctu simulovanych objektov
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {

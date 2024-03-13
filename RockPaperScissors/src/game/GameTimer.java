@@ -1,5 +1,6 @@
 package game;
 
+//Jednoducha trieda ktora rata cas v simulacii
 public class GameTimer {
 
     private double totalTime;

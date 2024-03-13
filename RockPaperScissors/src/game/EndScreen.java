@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.text.DecimalFormat;
 
+//Trieda ktora ukonci hru a vykresli na panel vysledok
 public class EndScreen implements IPanel {
 
 
@@ -34,6 +35,7 @@ public class EndScreen implements IPanel {
     }
 
 
+    //Dizajn a funkcie
     public void drawEnd(Graphics2D g2d, String winner) {
         int x = ((this.width / 2) - (500 / 2));
         int height = 900;
@@ -76,6 +78,7 @@ public class EndScreen implements IPanel {
         this.menuButton.repaint();
     }
 
+    //Funkcie jednotlivych tlacidiel
     @Override
     public void onButtonClick(EButtons button) {
         switch (button) {

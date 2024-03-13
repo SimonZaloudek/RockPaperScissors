@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+//Jednoducha "filler" trieda ktora vykresluje panel s obrazkom ktora vysvetluje priebeh simulatora
 public class HelpPanel extends JPanel implements IPanel {
     private final Frame frame;
     private final String mapPath;

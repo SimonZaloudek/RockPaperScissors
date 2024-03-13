@@ -12,12 +12,15 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class OptionsPanel extends JPanel implements IPanel {
+//Trieda ktora spravuje funkcionalitu panelu nastaveni
+public class SettingsPanel extends JPanel implements IPanel {
 
     private final Frame frame;
 
+    //Zoznam ciest na vsetkych implementovane mapy
     private final String[] mapList = {"assets/ARENAS/mainArena.png", "assets/ARENAS/redArena.png", "assets/ARENAS/stoneArena.png", "assets/ARENAS/woodArena.png", "assets/ARENAS/mcArena.png"};
 
+    //Zoznam ciest na vsetky implementovane "skiny"
     private final String[] rockSkins = { "assets/RPS/menuRock.png" , "assets/RPS/rock.png", "assets/RPS/menuMcRock.png", "assets/RPS/McRock.png", "assets/RPS/menuHandRock.png", "assets/RPS/handRock.png" };
     private final String[] paperSkins = { "assets/RPS/menuPaper.png" , "assets/RPS/paper.png", "assets/RPS/menuMcPaper.png", "assets/RPS/McPaper.png", "assets/RPS/menuHandPaper.png", "assets/RPS/handPaper.png" };
     private final String[] scissorSkins = { "assets/RPS/menuScissors.png" , "assets/RPS/scissors.png", "assets/RPS/menuMcScissors.png", "assets/RPS/McScissors.png", "assets/RPS/menuHandScissors.png", "assets/RPS/handScissors.png" };
@@ -28,10 +31,12 @@ public class OptionsPanel extends JPanel implements IPanel {
 
     private int mapNumber = 0;
 
-    public OptionsPanel(Frame pFrame) {
+    public SettingsPanel(Frame pFrame) {
         this.frame = pFrame;
 
+        //Nastavuje panel
         this.setupPanel(Color.BLACK, 600, 800);
+        //Nastavuje tlacidla
         this.setupButtons();
 
         this.frame.add(this);
@@ -82,6 +87,7 @@ public class OptionsPanel extends JPanel implements IPanel {
 
         Graphics2D g2d = (Graphics2D)g;
 
+        //Vykresluje dizajn obrazovky
         this.drawScreen(g2d);
     }
 
@@ -102,17 +108,21 @@ public class OptionsPanel extends JPanel implements IPanel {
     }
 
     public String[] setupSkins() {
-        return new String[]{  this.rockSkins[this.menuRockNumber], this.rockSkins[this.menuRockNumber + 1],
-                            this.paperSkins[this.menuPaperNumber], this.paperSkins[this.menuPaperNumber + 1],
-                            this.scissorSkins[this.menuScissorsNumber], this.scissorSkins[this.menuScissorsNumber + 1]};
+        return new String[]{
+                this.rockSkins[this.menuRockNumber], this.rockSkins[this.menuRockNumber + 1],
+                this.paperSkins[this.menuPaperNumber], this.paperSkins[this.menuPaperNumber + 1],
+                this.scissorSkins[this.menuScissorsNumber], this.scissorSkins[this.menuScissorsNumber + 1]};
     }
 
+    //Funkcie jednotlivych tlacidiel
+    //Taktiez system zmeny vykreslovania "skinov" a map
     @Override
     public void onButtonClick(EButtons button) {
         switch (button) {
             case MENU, BACK -> {
                 this.setupSkins();
                 this.frame.remove(this);
+                //Pri opusteni nastaveni sa vytvara novy panel v ktorom uz budu implementovane nastavene "skiny" a mapy.
                 this.frame.add(new MenuPanel(this.frame, this.mapList[this.mapNumber], this.setupSkins()));
             }
             case FL -> {

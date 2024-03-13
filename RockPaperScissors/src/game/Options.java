@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
+//Trieda ktora implementuje a nastavuje pauzu v hre
 public class Options implements IPanel {
 
     private final int width = 1600;
@@ -19,6 +20,7 @@ public class Options implements IPanel {
     private final Game game;
     private boolean isDrawn = false;
 
+    //Nastavenia tlacidiel
     private final Button playButton = new Button(EButtons.PLAY, this, ((this.width / 2) - (95)), 310, 185, 65, "RESUME", 0);
     private final Button helpButton = new Button(EButtons.MENU, this, ((this.width / 2) - (90)), 440, 175, 65, "MENU", 0);
     private final Button menuButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (90)), 570, 175, 65, "EXIT", 0);
@@ -41,6 +43,7 @@ public class Options implements IPanel {
         g2d.dispose();
     }
 
+    //Dizajn
     public void drawPause(Graphics2D g2d) {
         int x = ((this.width / 2) - (300 / 2));
         int height = 900;
@@ -56,6 +59,7 @@ public class Options implements IPanel {
         g2d.setStroke(tmp);
     }
 
+    //Prida tlacidla na panel hry, v pripade ze su vykreslene ich odstrani
     public void setupButtons() {
         if (this.isDrawn) {
             this.game.add(this.playButton);
@@ -71,6 +75,7 @@ public class Options implements IPanel {
         }
     }
 
+    //Funkcie jednotlivych tlacidiel
     @Override
     public void onButtonClick(EButtons button) {
         switch (button) {

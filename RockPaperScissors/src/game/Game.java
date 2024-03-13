@@ -17,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+//Hlavna trieda, kde prebieha jadro a procesy hry
 public class Game extends JPanel implements KeyListener, ActionListener {
 
     private final Timer timer;
@@ -27,10 +28,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     private String winner;
     private int speed = 1;
-    private final GameTimer gameTimer;
 
+    //Premenne na meranie casu ktore sa posielaju do GameTimeru
+    private final GameTimer gameTimer;
     private double elapsedTime;
 
+    //Zoznam entit
     private final ArrayList<Entity> entities = new ArrayList<>();
 
     private final Random random = new Random(System.nanoTime());
@@ -62,6 +65,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     }
 
+    //Nastavuje panel
     public void setupPanel(Color color, int width, int height) {
         this.setPreferredSize(new Dimension(width, height));
         this.setBackground(color);
@@ -70,7 +74,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    //Spawn, Movement and Collisions
+    //Nastavuje spawn entit
     public void setupEntities(int numOfRocks, int numOfPapers, int numOfScissors) {
         for (int i = 0; i < numOfRocks; i++) {
             this.entities.add(new Entity("ROCK", this.setLocation(), this.speed, this.skinPaths));
@@ -83,6 +87,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         }
     }
 
+    //Metoda ktora opravuje, aby sa entity nespawnovali cez seba, resp. na rovnakom mieste
     public int[] setLocation() {
         int width = 1600;
         int height = 900;
@@ -94,6 +99,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return xy;
     }
 
+    //Metoda ktora kontroluje kolizie entit pri spawne
     public boolean collisionForEntity(int x, int y) {
         for (Entity entity : this.entities) {
             if (Math.abs(x - entity.getX()) < 50 && Math.abs(y - entity.getY()) < 50) {
@@ -103,6 +109,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return false;
     }
 
+    //Metoda ktora riesi pohyb objektov
     private void moveEntities() {
         for (Entity entity : this.entities) {
             if (entity.getX() > 1499) {
@@ -120,15 +127,16 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             entity.updateSpeed(this.speed);
             entity.updateX();
             entity.updateY();
+            //Kontrola ci je v kolizii s inou entitou
             for (Entity otherEntity : this.entities) {
-                if (entity != otherEntity && entity.collidesWith(otherEntity)) {
+                if (entity != otherEntity && entity.jeVKoliziiS(otherEntity)) {
                     this.core(entity, otherEntity);
                 }
             }
         }
     }
 
-    //Core of the GAME
+    //Jadro funkcionality simulatora, riesi co sa stane pri kolizii objektov a meni dane entity na cielove
     private void core(Entity entity1, Entity entity2) {
         if (entity1.getEntityType() == 'R' && entity2.getEntityType() == 'S') {
             entity2.setEntity("ROCK");
@@ -143,7 +151,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    //PaintSegment
+    //Dizajn
     public void paint(Graphics g) {
         super.paint(g);
 
@@ -151,6 +159,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         this.drawGame(g2d);
     }
 
+    //cele GUI
     private void drawGame(Graphics2D g2d) {
         g2d.drawImage(new ImageIcon(this.mapPath).getImage(), 0, 0, 1600, 900, null);
 
@@ -168,7 +177,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    //GameLoop and Win Conditions
+    //GameLoop a "win" podmienky
+    //Obnovuje sa kazdy tick a diriguje movement, zaroven kontroluje kolizie a kontroluje ci su splnene podmienky na ukoncenie hry
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!this.winCondition()) {
@@ -182,6 +192,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         }
     }
 
+    //Kontroluje ci su splnene vsetky podmienky na vyhru
     private boolean winCondition() {
         if (this.areAllRock()) {
             this.winner = "ROCK";
@@ -198,6 +209,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return false;
     }
 
+    //Podmienky na vyhru pre kazdy objekt
     private boolean areAllRock() {
         for (Entity entity : this.entities) {
             if (entity.getEntityType() == 'P' || entity.getEntityType() == 'S') {
@@ -224,10 +236,11 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
 
-    //KeyEvents
+    //Funkcie keyboard inputu
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        //Pauza -> trieda Options
         if (code == KeyEvent.VK_ESCAPE) {
             if (this.timer.isRunning()) {
                 this.options.optionsMenu();
@@ -237,6 +250,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
                 this.timer.start();
             }
         }
+        //Nastavovanie rychlosti simulacie
         if (code == KeyEvent.VK_UP) {
             if (this.speed < 20) {
                 this.speed++;

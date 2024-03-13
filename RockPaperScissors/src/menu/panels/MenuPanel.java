@@ -105,7 +105,7 @@ public class MenuPanel extends JPanel implements IPanel {
             }
             case OPTIONS -> {
                 this.frame.remove(this);
-                this.frame.add(new OptionsPanel(this.frame));
+                this.frame.add(new SettingsPanel(this.frame));
             }
             case EXIT -> System.exit(0);
         }

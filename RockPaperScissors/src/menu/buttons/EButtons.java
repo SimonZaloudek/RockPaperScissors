@@ -1,5 +1,6 @@
 package menu.buttons;
 
+//Enum pre typy pouzivanych tlacidiel
 public enum EButtons {
     MENU,
     PLAY,

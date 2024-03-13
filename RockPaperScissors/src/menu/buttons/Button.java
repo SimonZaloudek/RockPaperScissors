@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+//Trieda ktora nastavuje tlacididla pouzivane v programe
 public class Button extends JButton implements MouseListener {
 
     private final IPanel panel;
@@ -20,6 +21,7 @@ public class Button extends JButton implements MouseListener {
         super.addMouseListener(this);
         this.panel = pPanel;
         this.button = pButton;
+        //Vyberam z dvoch pouzivanych moznosti a nastavujem parametre a dizajn tlacidiel
         if (var == 0) {
             this.genericButton(x, y, pWidth, pHeight, text);
         }
@@ -55,6 +57,7 @@ public class Button extends JButton implements MouseListener {
     }
 
     //MainClickMethod
+    //Kliknutim na lubovolne tlacidlo sa vykona interface metoda ktora patri k danej triede a vykona danu funkcionalitu
     @Override
     public void mouseClicked(MouseEvent e) {
         this.setEventColor();
