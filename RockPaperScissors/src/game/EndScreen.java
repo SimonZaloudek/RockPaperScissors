@@ -24,9 +24,10 @@ public class EndScreen implements IPanel {
     private final Game game;
     private final int[] numOfObj;
 
+    private final Button menuButton = new Button(EButtons.MENU, this, ((this.width / 2 - 50) - (500 / 2) + 30), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
     private final Button playButton = new Button(EButtons.PLAY, this, ((this.width / 2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
-    private final Button helpButton = new Button(EButtons.MENU, this, ((this.width / 2) - (115)), 620, 225, 75, "MENU", 0);
-    private final Button menuButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (115)), 705, 225, 75, "EXIT", 0);
+    private final Button statsButton = new Button(EButtons.OPTIONS, this, ((this.width / 2) - (115)), 620, 225, 75, "STATISTICS", 0);
+    private final Button exitButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (115)), 705, 225, 75, "EXIT", 0);
 
     public EndScreen(Frame frame, Game game, int[] numOfObj) {
         this.frame = frame;
@@ -42,12 +43,12 @@ public class EndScreen implements IPanel {
         int y = ((height / 2) - (700 / 2));
 
         g2d.setColor(Color.BLACK);
-        g2d.fillRoundRect(x, y / 2 + 50, 500, 700, 10, 10);
+        g2d.fillRoundRect(x - 40, y / 2 + 50, 580, 700, 10, 10);
 
         g2d.setColor(Color.ORANGE);
         Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(20));
-        g2d.drawRoundRect(x, y / 2 + 50, 500, 700, 10, 10);
+        g2d.drawRoundRect(x - 40, y / 2 + 50, 580, 700, 10, 10);
         g2d.setStroke(tmp);
         this.setupButtons();
         g2d.drawRoundRect(this.width / 2 - 80, 375, 150, 150, 0, 0);
@@ -66,15 +67,20 @@ public class EndScreen implements IPanel {
 
         g2d.setFont(new Font("Arial", Font.PLAIN, 15));
         g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", this.width / 2 + 80, 520);
-        g2d.drawImage(new ImageIcon("assets/BUTTONS/rpsMainLogo.png").getImage(), x + 30, y / 2 + 50 + 40, 440, 140, null);
+    }
+
+    public void drawStats(Graphics2D g2d, String winner) {
+
     }
 
     public void setupButtons() {
         this.game.add(this.playButton);
-        this.game.add(this.helpButton);
+        this.game.add(this.statsButton);
+        this.game.add(this.exitButton);
         this.game.add(this.menuButton);
         this.playButton.repaint();
-        this.helpButton.repaint();
+        this.statsButton.repaint();
+        this.exitButton.repaint();
         this.menuButton.repaint();
     }
 
@@ -89,6 +95,9 @@ public class EndScreen implements IPanel {
             case MENU -> {
                 this.frame.remove(this.game);
                 this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
+            }
+            case OPTIONS -> {
+
             }
             case EXIT -> System.exit(0);
         }

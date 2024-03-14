@@ -35,6 +35,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     //Zoznam entit
     private final ArrayList<Entity> entities = new ArrayList<>();
+    private Stats statistics = new Stats();
 
     private final Random random = new Random(System.nanoTime());
 
@@ -127,10 +128,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             entity.updateSpeed(this.speed);
             entity.updateX();
             entity.updateY();
+            this.statistics.addDistance();
             //Kontrola ci je v kolizii s inou entitou
             for (Entity otherEntity : this.entities) {
                 if (entity != otherEntity && entity.jeVKoliziiS(otherEntity)) {
                     this.core(entity, otherEntity);
+                    this.statistics.setTouches();
                 }
             }
         }
@@ -141,12 +144,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         if (entity1.getEntityType() == 'R' && entity2.getEntityType() == 'S') {
             entity2.setEntity("ROCK");
             entity1.collisionHandler(entity2);
+            this.statistics.setKills(1, 0, 0);
         } else if (entity1.getEntityType() == 'P' && entity2.getEntityType() == 'R') {
             entity2.setEntity("PAPER");
             entity1.collisionHandler(entity2);
+            this.statistics.setKills(0, 1, 0);
         } else if (entity1.getEntityType() == 'S' && entity2.getEntityType() == 'P') {
             entity2.setEntity("SCISSORS");
             entity1.collisionHandler(entity2);
+            this.statistics.setKills(0, 0, 1);
         }
     }
 
