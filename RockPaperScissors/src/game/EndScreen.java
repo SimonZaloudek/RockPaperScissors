@@ -19,15 +19,18 @@ public class EndScreen implements IPanel {
 
 
     private final int width = 1600;
+//    private final int height = 900;
 
     private final Frame frame;
     private final Game game;
+    private Stats statistics = new Stats();
     private final int[] numOfObj;
 
     private final Button menuButton = new Button(EButtons.MENU, this, ((this.width / 2 - 50) - (500 / 2) + 30), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
     private final Button playButton = new Button(EButtons.PLAY, this, ((this.width / 2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
-    private final Button statsButton = new Button(EButtons.OPTIONS, this, ((this.width / 2) - (115)), 620, 225, 75, "STATISTICS", 0);
+    private final Button statsButton = new Button(EButtons.OPTIONS, this, ((this.width / 2) - (115)), 620, 225, 75, "STATS", 0);
     private final Button exitButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (115)), 705, 225, 75, "EXIT", 0);
+
     private boolean stats;
     private String winner;
 
@@ -39,36 +42,38 @@ public class EndScreen implements IPanel {
 
 
     //Dizajn a funkcie
-    public void drawEnd(Graphics2D g2d, String pWinner) {
-        int x = ((this.width / 2) - (500 / 2));
-        int height = 900;
-        int y = ((height / 2) - (700 / 2));
-
+    public void paintEndScreen(Graphics2D g2d, String pWinner, Stats pStatistics) {
         if (this.winner == null) {
             this.winner = pWinner;
         }
+        this.statistics = pStatistics;
 
-        this.drawBasic(g2d, x, y);
+        this.drawEndScreen(g2d);
     }
 
-    public void paintStats(Graphics2D g2d) {
-        int height = 900;
-        int y = ((height / 2) - (700 / 2));
-        int x = ((this.width / 2) - (500 / 2));
-        this.drawBasic(g2d, x, y);
+    public void drawStats(Graphics2D g2d) {
+        this.drawEndScreen(g2d);
+
+        g2d.setFont(new Font("Arial", Font.PLAIN, 15));
+        g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", (this.width / 2 - 110), 560);
+        g2d.drawString("Total touches: " + this.statistics.getTouches(), (this.width / 2 - 110), 585);
+        g2d.drawString("Total conversions: ", (this.width / 2 - 110), 610);
+        g2d.drawString("| Rock: " + this.statistics.getKills()[0] + " | | Paper: " + this.statistics.getKills()[1] + " | | Scissors: " + this.statistics.getKills()[2] + " |", (this.width / 2 - 110), 635);
+        g2d.drawString("Total distance(in pixels): " + this.statistics.getDistanceTravelled(), (this.width / 2 - 110), 660);
+
     }
 
-    private void drawBasic(Graphics2D g2d, int x, int y) {
+    private void drawEndScreen(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
-        g2d.fillRoundRect(x - 40, y / 2 + 50, 580, 700, 10, 10);
+        g2d.fillRoundRect(510, 100, 580, 700, 10, 10);
 
         g2d.setColor(Color.ORANGE);
         Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(20));
-        g2d.drawRoundRect(x - 40, y / 2 + 50, 580, 700, 10, 10);
+        g2d.drawRoundRect(510, 100, 580, 700, 10, 10);
         g2d.setStroke(tmp);
         this.setupButtons();
-        g2d.drawRoundRect(this.width / 2 - 80, 375, 150, 150, 0, 0);
+        g2d.drawRoundRect((this.width / 2 - 80), 375, 150, 150, 0, 0);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 40));
         g2d.drawString("WINNER IS:", this.width / 2 - 115, 355);
@@ -81,9 +86,6 @@ public class EndScreen implements IPanel {
                     g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.width / 2 - 55, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
-
-        g2d.setFont(new Font("Arial", Font.PLAIN, 15));
-        g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", this.width / 2 + 80, 520);
     }
 
     public void setupButtons() {
@@ -116,14 +118,17 @@ public class EndScreen implements IPanel {
             }
             case OPTIONS -> {
                 this.stats = true;
+                this.exitButton.setText("BACK");
                 this.setupButtons();
-                this.paintStats((Graphics2D)this.game.getGraphics());
+                this.drawStats((Graphics2D)this.game.getGraphics());
             }
             case EXIT -> {
                 if (!this.stats) {
                     System.exit(0);
                 } else {
                     this.stats = false;
+                    this.exitButton.setText("EXIT");
+                    this.drawEndScreen((Graphics2D)this.game.getGraphics());
                     this.setupButtons();
                 }
             }

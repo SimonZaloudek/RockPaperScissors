@@ -35,7 +35,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     //Zoznam entit
     private final ArrayList<Entity> entities = new ArrayList<>();
-    private Stats statistics = new Stats();
+    private final Stats statistics = new Stats();
 
     private final Random random = new Random(System.nanoTime());
 
@@ -194,7 +194,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             this.timer.stop();
             this.gameTimer.stopTimer();
             this.elapsedTime = this.gameTimer.getTotalTime();
-            this.endScreen.drawEnd((Graphics2D)this.getGraphics(), this.winner);
+            this.endScreen.paintEndScreen((Graphics2D)this.getGraphics(), this.winner, this.statistics);
         }
     }
 
