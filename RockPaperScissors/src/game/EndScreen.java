@@ -16,20 +16,15 @@ import java.text.DecimalFormat;
 
 //Trieda ktora ukonci hru a vykresli na panel vysledok
 public class EndScreen implements IPanel {
-
-
-    private final int width = 1600;
-//    private final int height = 900;
-
     private final Frame frame;
     private final Game game;
     private Stats statistics = new Stats();
     private final int[] numOfObj;
 
-    private final Button menuButton = new Button(EButtons.MENU, this, ((this.width / 2 - 50) - (500 / 2) + 30), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
-    private final Button playButton = new Button(EButtons.PLAY, this, ((this.width / 2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
-    private final Button statsButton = new Button(EButtons.OPTIONS, this, ((this.width / 2) - (115)), 620, 225, 75, "STATS", 0);
-    private final Button exitButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (115)), 705, 225, 75, "EXIT", 0);
+    private final Button menuButton;
+    private final Button playButton;
+    private final Button statsButton;
+    private final Button exitButton;
 
     private boolean stats;
     private String winner;
@@ -38,6 +33,10 @@ public class EndScreen implements IPanel {
         this.frame = frame;
         this.game = game;
         this.numOfObj = new int[]{numOfObj[0], numOfObj[1], numOfObj[2]};
+        this.menuButton = new Button(EButtons.MENU, this, ((this.frame.getScreenWidth() / 2 - 50) - (500 / 2) + 30), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
+        this.playButton = new Button(EButtons.PLAY, this, ((this.frame.getScreenWidth() / 2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
+        this.statsButton = new Button(EButtons.OPTIONS, this, ((this.frame.getScreenWidth() / 2) - (115)), 620, 225, 75, "STATS", 0);
+        this.exitButton = new Button(EButtons.EXIT, this, ((this.frame.getScreenWidth() / 2) - (115)), 705, 225, 75, "EXIT", 0);
     }
 
 
@@ -55,11 +54,11 @@ public class EndScreen implements IPanel {
         this.drawEndScreen(g2d);
 
         g2d.setFont(new Font("Arial", Font.PLAIN, 15));
-        g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", (this.width / 2 - 110), 560);
-        g2d.drawString("Total touches: " + this.statistics.getTouches(), (this.width / 2 - 110), 585);
-        g2d.drawString("Total conversions: ", (this.width / 2 - 110), 610);
-        g2d.drawString("| Rock: " + this.statistics.getKills()[0] + " | | Paper: " + this.statistics.getKills()[1] + " | | Scissors: " + this.statistics.getKills()[2] + " |", (this.width / 2 - 110), 635);
-        g2d.drawString("Total distance(in pixels): " + this.statistics.getDistanceTravelled(), (this.width / 2 - 110), 660);
+        g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", (this.frame.getScreenWidth() / 2 - 110), 560);
+        g2d.drawString("Total touches: " + this.statistics.getTouches(), (this.frame.getScreenWidth() / 2 - 110), 585);
+        g2d.drawString("Total conversions: ", (this.frame.getScreenWidth() / 2 - 110), 610);
+        g2d.drawString("| Rock: " + this.statistics.getKills()[0] + " | | Paper: " + this.statistics.getKills()[1] + " | | Scissors: " + this.statistics.getKills()[2] + " |", (this.frame.getScreenWidth() / 2 - 110), 635);
+        g2d.drawString("Total distance(in pixels): " + this.statistics.getDistanceTravelled(), (this.frame.getScreenWidth() / 2 - 110), 660);
 
     }
 
@@ -73,17 +72,17 @@ public class EndScreen implements IPanel {
         g2d.drawRoundRect(510, 100, 580, 700, 10, 10);
         g2d.setStroke(tmp);
         this.setupButtons();
-        g2d.drawRoundRect((this.width / 2 - 80), 375, 150, 150, 0, 0);
+        g2d.drawRoundRect((this.frame.getScreenWidth() / 2 - 80), 375, 150, 150, 0, 0);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 40));
-        g2d.drawString("WINNER IS:", this.width / 2 - 115, 355);
+        g2d.drawString("WINNER IS:", this.frame.getScreenWidth() / 2 - 115, 355);
         switch (this.winner) {
             case "ROCK" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.width / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             case "PAPER" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.width / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             case "SCISSORS" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.width / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
     }

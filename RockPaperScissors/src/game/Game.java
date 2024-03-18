@@ -21,6 +21,7 @@ import java.util.Random;
 public class Game extends JPanel implements KeyListener, ActionListener {
 
     private final Timer timer;
+    private final Frame frame;
     private final Options options;
     private final EndScreen endScreen;
     private final String mapPath;
@@ -41,19 +42,20 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors, String mapPath, String[] skinPaths) {
         super.addKeyListener(this);
+        this.frame = pFrame;
         this.gameTimer = new GameTimer();
 
         this.mapPath = mapPath;
         this.skinPaths = skinPaths;
-        this.setupPanel(Color.WHITE, 1600, 900);
+        this.setupPanel(this.frame.getScreenWidth(), this.frame.getScreenHeight() - 20);
 
-        pFrame.add(this);
-        pFrame.pack();
-        pFrame.setLocationRelativeTo(null);
+        this.frame.add(this);
+        this.frame.pack();
+        this.frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
         int[] numOfObj = new int[]{numOfRocks, numOfPapers, numOfScissors};
-        this.options = new Options(pFrame, this);
-        this.endScreen = new EndScreen(pFrame, this, numOfObj);
+        this.options = new Options(this.frame, this);
+        this.endScreen = new EndScreen(this.frame, this, numOfObj);
 
         if (!this.isVisible()) {
             this.setVisible(true);
@@ -67,10 +69,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     //Nastavuje panel
-    public void setupPanel(Color color, int width, int height) {
+    public void setupPanel(int width, int height) {
         this.setPreferredSize(new Dimension(width, height));
-        this.setBackground(color);
-        this.setLayout(null);
         this.setVisible(true);
     }
 
@@ -90,8 +90,8 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     //Metoda ktora opravuje, aby sa entity nespawnovali cez seba, resp. na rovnakom mieste
     public int[] setLocation() {
-        int width = 1600;
-        int height = 900;
+        int width = this.frame.getScreenWidth();
+        int height = this.frame.getScreenHeight();
         int[] xy = { this.random.nextInt((width - 105) - 60) + 60 , this.random.nextInt((height - 105) - 60) + 60 };
         while (this.collisionForEntity(xy[0], xy[1])) {
             xy[0] = this.random.nextInt((width - 105) - 60) + 60;
@@ -113,13 +113,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     //Metoda ktora riesi pohyb objektov
     private void moveEntities() {
         for (Entity entity : this.entities) {
-            if (entity.getX() > 1499) {
+            if (entity.getX() > this.frame.getScreenWidth() - 101) {
                 entity.setxDir(-this.speed);
             }
             if (entity.getX() < 51) {
                 entity.setxDir(this.speed);
             }
-            if (entity.getY() > 799) {
+            if (entity.getY() > this.frame.getScreenHeight() - 121) {
                 entity.setyDir(-this.speed);
             }
             if (entity.getY() < 51) {
@@ -167,19 +167,19 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     //cele GUI
     private void drawGame(Graphics2D g2d) {
-        g2d.drawImage(new ImageIcon(this.mapPath).getImage(), 0, 0, 1600, 900, null);
+        g2d.drawImage(new ImageIcon(this.mapPath).getImage(), 0, 0, this.frame.getScreenWidth(), this.frame.getScreenHeight() - 20, null);
 
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
         }
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 25));
-        g2d.drawString(("SPEED: " + this.speed), 750, 885);
-        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(), 700, 858, 35, 35, null);
+        g2d.drawString(("SPEED: " + this.speed), this.frame.getScreenWidth() / 2 - 50, this.frame.getScreenHeight() - 35);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(), this.frame.getScreenWidth() / 2 - 100, this.frame.getScreenHeight() - 60, 35, 35, null);
         if (this.speed > 9) {
-            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), 890, 858, 35, 35, null);
+            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), this.frame.getScreenWidth() / 2 + 90, this.frame.getScreenHeight() - 60, 35, 35, null);
         } else {
-            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), 880, 858, 35, 35, null);
+            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), this.frame.getScreenWidth() / 2 + 80, this.frame.getScreenHeight() - 60, 35, 35, null);
         }
     }
 

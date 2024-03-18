@@ -14,20 +14,23 @@ import java.awt.Stroke;
 //Trieda ktora implementuje a nastavuje pauzu v hre
 public class Options implements IPanel {
 
-    private final int width = 1600;
+
 
     private final Frame frame;
     private final Game game;
     private boolean isDrawn = false;
 
     //Nastavenia tlacidiel
-    private final Button playButton = new Button(EButtons.PLAY, this, ((this.width / 2) - (95)), 310, 185, 65, "RESUME", 0);
-    private final Button helpButton = new Button(EButtons.MENU, this, ((this.width / 2) - (90)), 440, 175, 65, "MENU", 0);
-    private final Button menuButton = new Button(EButtons.EXIT, this, ((this.width / 2) - (90)), 570, 175, 65, "EXIT", 0);
+    private Button playButton;
+    private Button helpButton;
+    private Button menuButton;
 
     public Options(Frame frame, Game game) {
         this.frame = frame;
         this.game = game;
+        this.playButton = new Button(EButtons.PLAY, this, ((this.frame.getScreenWidth() / 2) - (95)), 310, 185, 65, "RESUME", 0);
+        this.helpButton= new Button(EButtons.MENU, this, ((this.frame.getScreenWidth() / 2) - (90)), 440, 175, 65, "MENU", 0);
+        this.menuButton= new Button(EButtons.EXIT, this, ((this.frame.getScreenWidth() / 2) - (90)), 570, 175, 65, "EXIT", 0);
     }
 
     public void optionsMenu() {
@@ -45,7 +48,7 @@ public class Options implements IPanel {
 
     //Dizajn
     public void drawPause(Graphics2D g2d) {
-        int x = ((this.width / 2) - (300 / 2));
+        int x = ((this.frame.getScreenWidth() / 2) - (300 / 2));
         int height = 900;
         int y = ((height / 2) + (400 / 2));
 
