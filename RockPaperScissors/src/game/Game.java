@@ -71,6 +71,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     //Nastavuje panel
     public void setupPanel(int width, int height) {
         this.setPreferredSize(new Dimension(width, height));
+        this.setLayout(null);
         this.setVisible(true);
     }
 

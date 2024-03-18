@@ -64,14 +64,13 @@ public class EndScreen implements IPanel {
 
     private void drawEndScreen(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
-        g2d.fillRoundRect(510, 100, 580, 700, 10, 10);
+        g2d.fillRoundRect(this.frame.getScreenWidth() / 2 - 290, 100, 580, 700, 10, 10);
 
         g2d.setColor(Color.ORANGE);
         Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(20));
-        g2d.drawRoundRect(510, 100, 580, 700, 10, 10);
+        g2d.drawRoundRect(this.frame.getScreenWidth() / 2 - 290, 100, 580, 700, 10, 10);
         g2d.setStroke(tmp);
-        this.setupButtons();
         g2d.drawRoundRect((this.frame.getScreenWidth() / 2 - 80), 375, 150, 150, 0, 0);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 40));
@@ -85,6 +84,7 @@ public class EndScreen implements IPanel {
                     g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
+        this.setupButtons();
     }
 
     public void setupButtons() {
@@ -118,7 +118,6 @@ public class EndScreen implements IPanel {
             case OPTIONS -> {
                 this.stats = true;
                 this.exitButton.setText("BACK");
-                this.setupButtons();
                 this.drawStats((Graphics2D)this.game.getGraphics());
             }
             case EXIT -> {
@@ -128,7 +127,6 @@ public class EndScreen implements IPanel {
                     this.stats = false;
                     this.exitButton.setText("EXIT");
                     this.drawEndScreen((Graphics2D)this.game.getGraphics());
-                    this.setupButtons();
                 }
             }
         }
