@@ -5,15 +5,21 @@ public class GameTimer {
 
     private double totalTime;
 
-    private final float startTime;
+    private float startTime;
 
     public GameTimer() {
         this.startTime = System.nanoTime();
     }
 
-    public void stopTimer() {
+    public void stopTimer(int speed) {
         float finalTime = System.nanoTime();
-        this.totalTime = ((double)(finalTime - this.startTime) / 1000000000);
+        this.totalTime += ((double)(finalTime - this.startTime) / 1000000000) * speed;
+    }
+
+    public void update(int speed) {
+        float stop = System.nanoTime();
+        this.totalTime = ((double)(stop - this.startTime) / 1000000000) * speed;
+        this.startTime = System.nanoTime();
     }
 
     public double getTotalTime() {

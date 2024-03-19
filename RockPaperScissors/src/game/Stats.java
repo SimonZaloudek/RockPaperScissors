@@ -1,5 +1,6 @@
 package game;
 
+//Trieda ktora implementuje statistiky
 public class Stats {
 
     private int touches;

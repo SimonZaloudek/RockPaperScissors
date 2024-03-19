@@ -17,16 +17,20 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-//Hlavna trieda, kde prebieha jadro a procesy hry
+//Hlavna trieda, kde prebieha jadro a procesy hry ako pohyb, kolizie a vyhodnocovanie vitaza.
 public class Game extends JPanel implements KeyListener, ActionListener {
 
-    private final Timer timer;
+    //Moje triedy
     private final Frame frame;
-    private final Options options;
+    private final Timer timer;
+    private final Pause pause;
     private final EndScreen endScreen;
+
+    //Skiny
     private final String mapPath;
     private final String[] skinPaths;
 
+    //
     private String winner;
     private int speed = 1;
 
@@ -38,6 +42,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     private final ArrayList<Entity> entities = new ArrayList<>();
     private final Stats statistics = new Stats();
 
+    //Generovanie nahodnej premennej
     private final Random random = new Random(System.nanoTime());
 
     public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors, String mapPath, String[] skinPaths) {
@@ -54,7 +59,7 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         this.frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 
         int[] numOfObj = new int[]{numOfRocks, numOfPapers, numOfScissors};
-        this.options = new Options(this.frame, this);
+        this.pause = new Pause(this.frame, this);
         this.endScreen = new EndScreen(this.frame, this, numOfObj);
 
         if (!this.isVisible()) {
@@ -111,19 +116,19 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return false;
     }
 
-    //Metoda ktora riesi pohyb objektov
+    //Metoda ktora riesi pohyb objektov a ich odrazy
     private void moveEntities() {
         for (Entity entity : this.entities) {
-            if (entity.getX() > this.frame.getScreenWidth() - 101) {
+            if (entity.getX() > this.frame.getScreenWidth() - ((this.frame.getScreenWidth() / 29.09) * 1.7)) {
                 entity.setxDir(-this.speed);
             }
-            if (entity.getX() < 51) {
+            if (entity.getX() < this.frame.getScreenWidth() / 29.09) {
                 entity.setxDir(this.speed);
             }
-            if (entity.getY() > this.frame.getScreenHeight() - 121) {
+            if (entity.getY() > this.frame.getScreenHeight() - ((this.frame.getScreenHeight() - 20) / 16.5) * 2.1) {
                 entity.setyDir(-this.speed);
             }
-            if (entity.getY() < 51) {
+            if (entity.getY() < (this.frame.getScreenHeight() - 20) / 16.2) {
                 entity.setyDir(this.speed);
             }
             entity.updateSpeed(this.speed);
@@ -192,14 +197,12 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             this.moveEntities();
             this.repaint();
         } else {
-            this.timer.stop();
-            this.gameTimer.stopTimer();
-            this.elapsedTime = this.gameTimer.getTotalTime();
-            this.endScreen.paintEndScreen((Graphics2D)this.getGraphics(), this.winner, this.statistics);
+            this.endGame();
         }
     }
 
-    //Kontroluje ci su splnene vsetky podmienky na vyhru
+    //4 metody ktore spolupracuju pri kontrole ci su splnene vsetky podmienky na vyhru
+
     private boolean winCondition() {
         if (this.areAllRock()) {
             this.winner = "ROCK";
@@ -216,7 +219,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return false;
     }
 
-    //Podmienky na vyhru pre kazdy objekt
     private boolean areAllRock() {
         for (Entity entity : this.entities) {
             if (entity.getEntityType() == 'P' || entity.getEntityType() == 'S') {
@@ -242,7 +244,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return true;
     }
 
-
     //Funkcie keyboard inputu
     @Override
     public void keyPressed(KeyEvent e) {
@@ -250,10 +251,10 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         //Pauza -> trieda Options
         if (code == KeyEvent.VK_ESCAPE) {
             if (this.timer.isRunning()) {
-                this.options.optionsMenu();
+                this.pause.optionsMenu();
                 this.timer.stop();
             } else {
-                this.options.optionsMenu();
+                this.pause.optionsMenu();
                 this.timer.start();
             }
         }
@@ -261,14 +262,27 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         if (code == KeyEvent.VK_UP) {
             if (this.speed < 20) {
                 this.speed++;
+                this.gameTimer.update(this.speed);
             }
         }
         if (code == KeyEvent.VK_DOWN) {
             if (this.speed > 1) {
                 this.speed--;
+                this.gameTimer.update(this.speed);
             }
         }
+        if (code == KeyEvent.VK_Q) {
+            this.winner = "ROCK";
+            this.endGame();
+        }
     }
+    private void endGame() {
+        this.timer.stop();
+        this.gameTimer.stopTimer(this.speed);
+        this.elapsedTime = this.gameTimer.getTotalTime();
+        this.endScreen.paintEndScreen((Graphics2D)this.getGraphics(), this.winner, this.statistics);
+    }
+
     @Override
     public void keyReleased(KeyEvent e) {
     }
