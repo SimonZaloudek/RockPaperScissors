@@ -1,5 +1,6 @@
 package game;
 
+import entities.Entity;
 import menu.Frame;
 
 import javax.swing.ImageIcon;

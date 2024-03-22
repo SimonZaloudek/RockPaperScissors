@@ -11,14 +11,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.text.DecimalFormat;
 
 //Trieda ktora ukonci hru a vykresli na panel vysledok
 public class EndScreen implements IPanel {
     private final Frame frame;
     private final Game game;
-    private Stats statistics = new Stats();
+
+    private Stats statistics;
     private final int[] numOfObj;
 
     private final Button menuButton;
@@ -26,17 +26,18 @@ public class EndScreen implements IPanel {
     private final Button statsButton;
     private final Button exitButton;
 
-    private boolean stats;
+    private boolean areStats;
     private String winner;
 
     public EndScreen(Frame frame, Game game, int[] numOfObj) {
         this.frame = frame;
         this.game = game;
+
         this.numOfObj = new int[]{numOfObj[0], numOfObj[1], numOfObj[2]};
-        this.menuButton = new Button(EButtons.MENU, this, ((this.frame.getScreenWidth() / 2 - 50) - (500 / 2) + 30), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
-        this.playButton = new Button(EButtons.PLAY, this, ((this.frame.getScreenWidth() / 2) - (120)), 535, 235, 75, "PLAY AGAIN", 0);
-        this.statsButton = new Button(EButtons.OPTIONS, this, ((this.frame.getScreenWidth() / 2) - (115)), 620, 225, 75, "STATS", 0);
-        this.exitButton = new Button(EButtons.EXIT, this, ((this.frame.getScreenWidth() / 2) - (115)), 705, 225, 75, "EXIT", 0);
+        this.menuButton = new Button(EButtons.MENU, this, (this.frame.getScreenWidth() / 2 - 270), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
+        this.playButton = new Button(EButtons.PLAY, this, (this.frame.getScreenWidth() / 2 - 120), 535, 235, 75, "PLAY AGAIN", 0);
+        this.statsButton = new Button(EButtons.OPTIONS, this, (this.frame.getScreenWidth() / 2) - 115, 620, 225, 75, "STATS", 0);
+        this.exitButton = new Button(EButtons.EXIT, this, (this.frame.getScreenWidth() / 2 - 115), 705, 225, 75, "EXIT", 0);
     }
 
 
@@ -53,6 +54,7 @@ public class EndScreen implements IPanel {
     public void drawStats(Graphics2D g2d) {
         this.drawEndScreen(g2d);
 
+        //TODO - move to |Stats class|
         g2d.setFont(new Font("Arial", Font.PLAIN, 15));
         g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", (this.frame.getScreenWidth() / 2 - 110), 560);
         g2d.drawString("Total touches: " + this.statistics.getTouches(), (this.frame.getScreenWidth() / 2 - 110), 585);
@@ -63,14 +65,15 @@ public class EndScreen implements IPanel {
     }
 
     private void drawEndScreen(Graphics2D g2d) {
+        //Panel
         g2d.setColor(Color.BLACK);
         g2d.fillRoundRect(this.frame.getScreenWidth() / 2 - 290, 100, 580, 700, 10, 10);
-
         g2d.setColor(Color.ORANGE);
-        Stroke tmp = g2d.getStroke();
         g2d.setStroke(new BasicStroke(20));
         g2d.drawRoundRect(this.frame.getScreenWidth() / 2 - 290, 100, 580, 700, 10, 10);
-        g2d.setStroke(tmp);
+
+        //WinnerFrame
+        g2d.setStroke(new BasicStroke(2));
         g2d.drawRoundRect((this.frame.getScreenWidth() / 2 - 80), 375, 150, 150, 0, 0);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 40));
@@ -87,8 +90,9 @@ public class EndScreen implements IPanel {
         this.setupButtons();
     }
 
+    //Tlacitka
     public void setupButtons() {
-        if (!this.stats) {
+        if (!this.areStats) {
             this.game.add(this.playButton);
             this.game.add(this.statsButton);
             this.game.add(this.exitButton);
@@ -116,15 +120,15 @@ public class EndScreen implements IPanel {
                 this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
             }
             case OPTIONS -> {
-                this.stats = true;
+                this.areStats = true;
                 this.exitButton.setText("BACK");
                 this.drawStats((Graphics2D)this.game.getGraphics());
             }
             case EXIT -> {
-                if (!this.stats) {
+                if (!this.areStats) {
                     System.exit(0);
                 } else {
-                    this.stats = false;
+                    this.areStats = false;
                     this.exitButton.setText("EXIT");
                     this.drawEndScreen((Graphics2D)this.game.getGraphics());
                 }
