@@ -3,55 +3,18 @@ package menu.panels;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
-
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 
 //Trieda MenuPanel, ktora tvori hlavne menu hry
-public class MenuPanel extends JPanel implements IPanel {
+public class MenuPanel extends Panels {
 
-    //Nastavuje a z parametra prijma frame na ktorom bezi panel
-    private final Frame frame;
-    //Uklada cestu k mape
-    private String mapPath;
-    //Uklada cestu k "skinom" pre k,p,s ktore sa vykresluju na hlavnej obrazovke
-    private String[] skinPaths;
     public MenuPanel(Frame pFrame, String mapPath, String[] skinPaths) {
-        this.frame = pFrame;
-
-        //Nastavuje cestu k mape, v pripade startu programu sa nastavi na defaultnu hodnotu.
-        this.mapPath = mapPath;
-        if (this.mapPath == null || this.mapPath.isEmpty()) {
-            this.mapPath = "assets/ARENAS/mainArena.png";
-        }
-
-        //Nastavuje "skiny" k,p,s, ktore sa v pripade startu programu sa nastavia na defaultne.
-        this.skinPaths = skinPaths;
-        if (this.skinPaths == null) {
-            this.skinPaths = new String[]{"assets/RPS/menuRock.png", "assets/RPS/rock.png", "assets/RPS/menuPaper.png", "assets/RPS/paper.png", "assets/RPS/menuScissors.png", "assets/RPS/scissors.png"};
-        }
+        super(pFrame, mapPath, skinPaths);
 
         //Nastavenie panelu
-        this.setupPanel(Color.BLACK, 600, 800);
-    }
-
-    public void setupPanel(Color color, int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
-        this.setBackground(color);
-        this.setLayout(null);
-        this.setVisible(true);
-
-        //Nastavenie buttonov
-        this.setupButtons();
-
-        this.frame.add(this);
-        this.frame.pack();
-        this.frame.setLocationRelativeTo(null);
+        super.setupPanel();
     }
 
     public void setupButtons() {
@@ -71,23 +34,14 @@ public class MenuPanel extends JPanel implements IPanel {
         this.add(exitButton);
     }
 
-    //Automaticky sa volajuca metoda pri starte programu
-    public void paint(Graphics g) {
-        super.paint(g);
-        Graphics2D g2d = (Graphics2D)g;
-
-        //vykreslenie obrazkov
-        this.menuDesign(g2d);
-    }
-
-    public void menuDesign(Graphics2D g2d) {
+    public void drawScreen(Graphics2D g2d) {
         g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 235, 140, 140, null);
         g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 420, 140, 140, null);
         g2d.drawImage(new ImageIcon("assets/BUTTONS/imageFrame.png").getImage(), 380, 605, 140, 140, null);
 
-        g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), 400, 255, 100, 100, null);
-        g2d.drawImage(new ImageIcon(this.skinPaths[2]).getImage(), 400, 440, 100, 100, null);
-        g2d.drawImage(new ImageIcon(this.skinPaths[4]).getImage(), 400, 625, 100, 100, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[0]).getImage(), 400, 255, 100, 100, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[2]).getImage(), 400, 440, 100, 100, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[4]).getImage(), 400, 625, 100, 100, null);
     }
 
 
@@ -96,16 +50,16 @@ public class MenuPanel extends JPanel implements IPanel {
     public void onButtonClick(EButtons button) {
         switch (button) {
             case PLAY -> {
-                this.frame.remove(this);
-                this.frame.add(new PreGameMenu(this.frame, this.mapPath, this.skinPaths));
+                super.getFrame().remove(this);
+                super.getFrame().add(new PreGameMenu(super.getFrame(), super.getMapPath(), super.getSkinPaths()));
             }
             case HELP -> {
-                this.frame.remove(this);
-                this.frame.add(new HelpPanel(this.frame, this.mapPath, this.skinPaths));
+                super.getFrame().remove(this);
+                super.getFrame().add(new HelpPanel(super.getFrame(), super.getMapPath(), super.getSkinPaths()));
             }
             case OPTIONS -> {
-                this.frame.remove(this);
-                this.frame.add(new SettingsPanel(this.frame));
+                super.getFrame().remove(this);
+                super.getFrame().add(new SettingsPanel(super.getFrame()));
             }
             case EXIT -> System.exit(0);
         }

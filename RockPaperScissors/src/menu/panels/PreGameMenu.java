@@ -6,23 +6,16 @@ import menu.buttons.Button;
 import menu.buttons.EButtons;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 //Trieda ktora vykresluje panel pred zaciatkom hry, uzivatel si voli moznosti simulatora
-public class PreGameMenu extends JPanel implements IPanel, KeyListener {
-
-    private final Frame frame;
-    private final String mapPath;
-    private final String[] skinPaths;
+public class PreGameMenu extends Panels implements KeyListener {
 
     //pocet vykreslenych objektov
     private int rocks = 1;
@@ -30,44 +23,19 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
     private int papers = 1;
 
     PreGameMenu(Frame pFrame, String mapPath, String[] skinPaths) {
-        this.frame = pFrame;
-        this.mapPath = mapPath;
-        this.skinPaths = skinPaths;
-
+        super(pFrame, mapPath, skinPaths);
         super.addKeyListener(this);
 
         //Zakladne nastavenie panelu
-        this.setupPanel(Color.BLACK, 600, 800);
-        this.setupButtons();
+        super.setupPanel();
 
-        this.frame.add(this);
-        this.frame.pack();
-        this.frame.setLocationRelativeTo(null);
-
-        if (!this.isVisible()) {
-            this.setVisible(true);
+        if (!super.isVisible()) {
+            super.setVisible(true);
         }
     }
 
-    public void setupPanel(Color color, int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
-        this.setBackground(color);
-        this.setLayout(null);
-        this.setVisible(true);
-    }
-
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        Graphics2D g2d = (Graphics2D)g;
-        this.drawPanel(g2d);
-        this.setupButtons();
-        super.requestFocus();
-
-    }
-
     //Dizajn panelu
-    public void drawPanel(Graphics2D g2d) {
+    public void drawScreen(Graphics2D g2d) {
         g2d.setColor(Color.BLACK);
         g2d.fillRoundRect(50, 210, 500, 445, 0, 0);
 
@@ -78,9 +46,9 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
         g2d.setStroke(tmp);
 
         //Vykreslovanie spravnych skinov
-        g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), 80, 240, null);
-        g2d.drawImage(new ImageIcon(this.skinPaths[2]).getImage(), 80, 382, null);
-        g2d.drawImage(new ImageIcon(this.skinPaths[4]).getImage(), 80, 525, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[0]).getImage(), 80, 240, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[2]).getImage(), 80, 382, null);
+        g2d.drawImage(new ImageIcon(super.getSkinPaths()[4]).getImage(), 80, 525, null);
 
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 30));
 
@@ -102,9 +70,12 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
         g2d.drawString(Integer.toString(this.papers), pX, 442);
 
         g2d.drawString(Integer.toString(this.scissors), sX, 585);
+
+        this.setupButtons();
+        super.requestFocus();
     }
 
-    private void setupButtons() {
+    public void setupButtons() {
 
         Button menuButton = new Button(EButtons.MENU, this, 30, 30, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.add(menuButton);
@@ -145,12 +116,12 @@ public class PreGameMenu extends JPanel implements IPanel, KeyListener {
     public void onButtonClick(EButtons button) {
         switch (button) {
             case MENU, BACK -> {
-                this.frame.remove(this);
-                this.frame.add(new MenuPanel(this.frame, this.mapPath, this.skinPaths));
+                super.getFrame().remove(this);
+                super.getFrame().add(new MenuPanel(super.getFrame(), super.getMapPath(), super.getSkinPaths()));
             }
             case PLAY -> {
-                this.frame.remove(this);
-                this.frame.add(new Game(this.frame, this.rocks, this.papers, this.scissors, this.mapPath, this.skinPaths));
+                super.getFrame().remove(this);
+                super.getFrame().add(new Game(super.getFrame(), this.rocks, this.papers, this.scissors, super.getMapPath(), super.getSkinPaths()));
             }
             case FR -> {
                 if (this.rocks < 30) {

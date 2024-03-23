@@ -5,17 +5,12 @@ import menu.buttons.Button;
 import menu.buttons.EButtons;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 //Trieda ktora spravuje funkcionalitu panelu nastaveni
-public class SettingsPanel extends JPanel implements IPanel {
-
-    private final Frame frame;
+public class SettingsPanel extends Panels {
 
     //Zoznam ciest na vsetkych implementovane mapy
     private final String[] mapList = {"assets/ARENAS/mainArena.png", "assets/ARENAS/redArena.png", "assets/ARENAS/stoneArena.png", "assets/ARENAS/woodArena.png", "assets/ARENAS/mcArena.png"};
@@ -32,24 +27,10 @@ public class SettingsPanel extends JPanel implements IPanel {
     private int mapNumber = 0;
 
     public SettingsPanel(Frame pFrame) {
-        this.frame = pFrame;
+        super(pFrame, null, null);
 
         //Nastavuje panel
-        this.setupPanel(Color.BLACK, 600, 800);
-        //Nastavuje tlacidla
-        this.setupButtons();
-
-        this.frame.add(this);
-        this.frame.pack();
-
-        this.repaint();
-    }
-
-    public void setupPanel(Color color, int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
-        this.setBackground(color);
-        this.setLayout(null);
-        this.setVisible(true);
+        super.setupPanel();
     }
 
     public void setupButtons() {
@@ -82,15 +63,6 @@ public class SettingsPanel extends JPanel implements IPanel {
         scissorsButton.setContentAreaFilled(false);
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        Graphics2D g2d = (Graphics2D)g;
-
-        //Vykresluje dizajn obrazovky
-        this.drawScreen(g2d);
-    }
-
     public void drawScreen(Graphics2D g2d) {
 
         g2d.setColor(Color.ORANGE);
@@ -104,7 +76,6 @@ public class SettingsPanel extends JPanel implements IPanel {
         g2d.drawImage(new ImageIcon(this.rockSkins[this.menuRockNumber]).getImage(), 75, 520, 100, 100, null);
         g2d.drawImage(new ImageIcon(this.paperSkins[this.menuPaperNumber]).getImage(), 250, 520, 100, 100, null);
         g2d.drawImage(new ImageIcon(this.scissorSkins[this.menuScissorsNumber]).getImage(), 425, 520, 100, 100, null);
-
     }
 
     public String[] setupSkins() {
@@ -121,9 +92,9 @@ public class SettingsPanel extends JPanel implements IPanel {
         switch (button) {
             case MENU, BACK -> {
                 this.setupSkins();
-                this.frame.remove(this);
+                super.getFrame().remove(this);
                 //Pri opusteni nastaveni sa vytvara novy panel v ktorom uz budu implementovane nastavene "skiny" a mapy.
-                this.frame.add(new MenuPanel(this.frame, this.mapList[this.mapNumber], this.setupSkins()));
+                super.getFrame().add(new MenuPanel(super.getFrame(), this.mapList[this.mapNumber], this.setupSkins()));
             }
             case FL -> {
                 if (this.mapNumber > 0) {
