@@ -1,4 +1,4 @@
-package menu.panels;
+package handlers;
 
 import menu.Frame;
 
@@ -14,7 +14,7 @@ public abstract class Panels extends JPanel implements IPanel {
     private String mapPath;
     private String[] skinPaths;
     
-    Panels(Frame pFrame, String mapPath, String[] skinPaths) {
+    protected Panels(Frame pFrame, String mapPath, String[] skinPaths) {
         this.frame = pFrame;
 
         this.mapPath = mapPath;
@@ -29,8 +29,8 @@ public abstract class Panels extends JPanel implements IPanel {
     }
 
     //Nastavuje okno hry
-    protected void setupPanel() {
-        this.setPreferredSize(new Dimension(600, 800));
+    protected void setupPanel(int width, int height) {
+        this.setPreferredSize(new Dimension(width, height));
         this.setBackground(Color.BLACK);
         this.setLayout(null);
         this.setVisible(true);

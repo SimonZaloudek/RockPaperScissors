@@ -1,5 +1,6 @@
 package menu.panels;
 
+import handlers.Panels;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
@@ -30,7 +31,7 @@ public class SettingsPanel extends Panels {
         super(pFrame, null, null);
 
         //Nastavuje panel
-        super.setupPanel();
+        super.setupPanel(600, 800);
     }
 
     public void setupButtons() {

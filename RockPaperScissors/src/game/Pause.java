@@ -3,7 +3,7 @@ package game;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
-import menu.panels.IPanel;
+import handlers.IPanel;
 import menu.panels.MenuPanel;
 
 import java.awt.BasicStroke;
@@ -15,7 +15,6 @@ import java.awt.Stroke;
 public class Pause implements IPanel {
 
 
-
     private final Frame frame;
     private final Game game;
     private boolean isDrawn = false;
@@ -25,9 +24,9 @@ public class Pause implements IPanel {
     private final Button helpButton;
     private final Button menuButton;
 
-    public Pause(Frame frame, Game game) {
-        this.frame = frame;
-        this.game = game;
+    public Pause(Frame pFrame, Game pGame) {
+        this.frame = pFrame;
+        this.game = pGame;
         this.playButton = new Button(EButtons.PLAY, this, ((this.frame.getScreenWidth() / 2) - (95)), 310, 185, 65, "RESUME", 0);
         this.helpButton = new Button(EButtons.MENU, this, ((this.frame.getScreenWidth() / 2) - (90)), 440, 175, 65, "MENU", 0);
         this.menuButton = new Button(EButtons.EXIT, this, ((this.frame.getScreenWidth() / 2) - (90)), 570, 175, 65, "EXIT", 0);
@@ -88,7 +87,7 @@ public class Pause implements IPanel {
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
+                this.frame.add(new MenuPanel(this.frame, null, null));
             }
             case EXIT -> System.exit(0);
         }

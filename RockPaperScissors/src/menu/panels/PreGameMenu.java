@@ -1,6 +1,7 @@
 package menu.panels;
 
 import game.Game;
+import handlers.Panels;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
@@ -27,7 +28,7 @@ public class PreGameMenu extends Panels implements KeyListener {
         super.addKeyListener(this);
 
         //Zakladne nastavenie panelu
-        super.setupPanel();
+        super.setupPanel(600, 800);
 
         if (!super.isVisible()) {
             super.setVisible(true);
@@ -121,7 +122,7 @@ public class PreGameMenu extends Panels implements KeyListener {
             }
             case PLAY -> {
                 super.getFrame().remove(this);
-                super.getFrame().add(new Game(super.getFrame(), this.rocks, this.papers, this.scissors, super.getMapPath(), super.getSkinPaths()));
+                super.getFrame().add(new Game(super.getFrame(), new int[]{ this.rocks, this.papers, this.scissors }, super.getMapPath(), super.getSkinPaths()));
             }
             case FR -> {
                 if (this.rocks < 30) {

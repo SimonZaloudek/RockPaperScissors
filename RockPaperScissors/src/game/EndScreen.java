@@ -3,7 +3,7 @@ package game;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
-import menu.panels.IPanel;
+import handlers.IPanel;
 import menu.panels.MenuPanel;
 
 import javax.swing.ImageIcon;
@@ -17,6 +17,8 @@ import java.text.DecimalFormat;
 public class EndScreen implements IPanel {
     private final Frame frame;
     private final Game game;
+    private final String mapPath;
+    private final String[] skinPaths;
 
     private Stats statistics;
     private final int[] numOfObj;
@@ -29,11 +31,13 @@ public class EndScreen implements IPanel {
     private boolean areStats;
     private String winner;
 
-    public EndScreen(Frame frame, Game game, int[] numOfObj) {
-        this.frame = frame;
-        this.game = game;
-
+    public EndScreen(Frame pFrame, String pMapPath, String[] pSkinPaths, Game pGame, int[] numOfObj) {
+        this.frame = pFrame;
+        this.game = pGame;
+        this.mapPath = pMapPath;
+        this.skinPaths = pSkinPaths;
         this.numOfObj = new int[]{numOfObj[0], numOfObj[1], numOfObj[2]};
+
         this.menuButton = new Button(EButtons.MENU, this, (this.frame.getScreenWidth() / 2 - 270), 120, 540, 150, "assets/BUTTONS/rpsMainLogo.png", 1);
         this.playButton = new Button(EButtons.PLAY, this, (this.frame.getScreenWidth() / 2 - 120), 535, 235, 75, "PLAY AGAIN", 0);
         this.statsButton = new Button(EButtons.OPTIONS, this, (this.frame.getScreenWidth() / 2) - 115, 620, 225, 75, "STATS", 0);
@@ -61,7 +65,6 @@ public class EndScreen implements IPanel {
         g2d.drawString("Total conversions: ", (this.frame.getScreenWidth() / 2 - 110), 610);
         g2d.drawString("| Rock: " + this.statistics.getKills()[0] + " | | Paper: " + this.statistics.getKills()[1] + " | | Scissors: " + this.statistics.getKills()[2] + " |", (this.frame.getScreenWidth() / 2 - 110), 635);
         g2d.drawString("Total distance(in pixels): " + this.statistics.getDistanceTravelled(), (this.frame.getScreenWidth() / 2 - 110), 660);
-
     }
 
     private void drawEndScreen(Graphics2D g2d) {
@@ -80,11 +83,11 @@ public class EndScreen implements IPanel {
         g2d.drawString("WINNER IS:", this.frame.getScreenWidth() / 2 - 115, 355);
         switch (this.winner) {
             case "ROCK" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[0]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.skinPaths[0]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             case "PAPER" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[2]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.skinPaths[2]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             case "SCISSORS" ->
-                    g2d.drawImage(new ImageIcon(this.game.getSkinPaths()[4]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
+                    g2d.drawImage(new ImageIcon(this.skinPaths[4]).getImage(), this.frame.getScreenWidth() / 2 - 55, 400, null);
             default -> System.out.println("err: WINNER NOT FOUND!");
         }
         this.setupButtons();
@@ -113,11 +116,11 @@ public class EndScreen implements IPanel {
         switch (button) {
             case PLAY -> {
                 this.frame.remove(this.game);
-                this.frame.add(new Game(this.frame, this.numOfObj[0], this.numOfObj[1], this.numOfObj[2], this.game.getMapPath(), this.game.getSkinPaths()));
+                this.frame.add(new Game(this.frame, this.numOfObj, this.mapPath, this.skinPaths));
             }
             case MENU -> {
                 this.frame.remove(this.game);
-                this.frame.add(new MenuPanel(this.frame, this.game.getMapPath(), this.game.getSkinPaths()));
+                this.frame.add(new MenuPanel(this.frame, this.mapPath, this.skinPaths));
             }
             case OPTIONS -> {
                 this.areStats = true;

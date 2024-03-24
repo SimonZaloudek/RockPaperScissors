@@ -1,4 +1,4 @@
-package menu.panels;
+package handlers;
 
 import menu.buttons.EButtons;
 

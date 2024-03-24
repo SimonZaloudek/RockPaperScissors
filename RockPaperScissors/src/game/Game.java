@@ -1,15 +1,13 @@
 package game;
 
-import entities.Entity;
 import menu.Frame;
+import menu.buttons.EButtons;
+import handlers.Panels;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,19 +17,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 //Hlavna trieda, kde prebieha jadro a procesy hry ako pohyb, kolizie a vyhodnocovanie vitaza.
-public class Game extends JPanel implements KeyListener, ActionListener {
+public class Game extends Panels implements KeyListener, ActionListener {
 
     //Moje triedy
-    private final Frame frame;
     private final Timer timer;
     private final Pause pause;
     private final EndScreen endScreen;
 
-    //Skiny
-    private final String mapPath;
-    private final String[] skinPaths;
-
-    //
     private String winner;
     private int speed = 1;
 
@@ -46,59 +38,44 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     //Generovanie nahodnej premennej
     private final Random random = new Random(System.nanoTime());
 
-    public Game(Frame pFrame, int numOfRocks, int numOfPapers, int numOfScissors, String mapPath, String[] skinPaths) {
+    public Game(Frame pFrame, int[] pNumOfObj, String mapPath, String[] skinPaths) {
+        super(pFrame, mapPath, skinPaths);
         super.addKeyListener(this);
-        this.frame = pFrame;
+
+        this.setupPanel(super.getFrame().getScreenWidth(), super.getFrame().getScreenHeight() - 20);
+        super.getFrame().setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+
         this.gameTimer = new GameTimer();
+        this.pause = new Pause(super.getFrame(), this);
+        this.endScreen = new EndScreen(super.getFrame(), super.getMapPath(), super.getSkinPaths(), this, pNumOfObj);
 
-        this.mapPath = mapPath;
-        this.skinPaths = skinPaths;
-        this.setupPanel(this.frame.getScreenWidth(), this.frame.getScreenHeight() - 20);
-
-        this.frame.add(this);
-        this.frame.pack();
-        this.frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-
-        int[] numOfObj = new int[]{numOfRocks, numOfPapers, numOfScissors};
-        this.pause = new Pause(this.frame, this);
-        this.endScreen = new EndScreen(this.frame, this, numOfObj);
+        this.timer = new Timer(0, this);
+        this.timer.start();
+        this.setupEntities(pNumOfObj[0], pNumOfObj[1], pNumOfObj[2]);
 
         if (!this.isVisible()) {
             this.setVisible(true);
         }
         this.requestFocus();
-
-        this.timer = new Timer(0, this);
-        this.timer.start();
-        this.setupEntities(numOfObj[0], numOfObj[1], numOfObj[2]);
-
     }
-
-    //Nastavuje panel
-    public void setupPanel(int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
-        this.setLayout(null);
-        this.setVisible(true);
-    }
-
 
     //Nastavuje spawn entit
     public void setupEntities(int numOfRocks, int numOfPapers, int numOfScissors) {
         for (int i = 0; i < numOfRocks; i++) {
-            this.entities.add(new Entity("ROCK", this.setLocation(), this.speed, this.skinPaths));
+            this.entities.add(new Entity("ROCK", this.setLocation(), this.speed, super.getSkinPaths()));
         }
         for (int i = 0; i < numOfPapers; i++) {
-            this.entities.add(new Entity("PAPER", this.setLocation(), this.speed, this.skinPaths));
+            this.entities.add(new Entity("PAPER", this.setLocation(), this.speed, super.getSkinPaths()));
         }
         for (int i = 0; i < numOfScissors; i++) {
-            this.entities.add(new Entity("SCISSORS", this.setLocation(), this.speed, this.skinPaths));
+            this.entities.add(new Entity("SCISSORS", this.setLocation(), this.speed, super.getSkinPaths()));
         }
     }
 
     //Metoda ktora opravuje, aby sa entity nespawnovali cez seba, resp. na rovnakom mieste
     public int[] setLocation() {
-        int width = this.frame.getScreenWidth();
-        int height = this.frame.getScreenHeight();
+        int width = super.getFrame().getScreenWidth();
+        int height = super.getFrame().getScreenHeight();
         int[] xy = { this.random.nextInt((width - 105) - 60) + 60 , this.random.nextInt((height - 105) - 60) + 60 };
         while (this.collisionForEntity(xy[0], xy[1])) {
             xy[0] = this.random.nextInt((width - 105) - 60) + 60;
@@ -120,16 +97,16 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     //Metoda ktora riesi pohyb objektov a ich odrazy
     private void moveEntities() {
         for (Entity entity : this.entities) {
-            if (entity.getX() > this.frame.getScreenWidth() - ((this.frame.getScreenWidth() / 29.09) * 1.7)) {
+            if (entity.getX() > super.getFrame().getScreenWidth() - ((super.getFrame().getScreenWidth() / 29.09) * 1.7)) {
                 entity.setxDir(-this.speed);
             }
-            if (entity.getX() < this.frame.getScreenWidth() / 29.09) {
+            if (entity.getX() < super.getFrame().getScreenWidth() / 29.09) {
                 entity.setxDir(this.speed);
             }
-            if (entity.getY() > this.frame.getScreenHeight() - ((this.frame.getScreenHeight() - 20) / 16.5) * 2.1) {
+            if (entity.getY() > super.getFrame().getScreenHeight() - ((super.getFrame().getScreenHeight() - 20) / 16.5) * 2.1) {
                 entity.setyDir(-this.speed);
             }
-            if (entity.getY() < (this.frame.getScreenHeight() - 20) / 16.2) {
+            if (entity.getY() < (super.getFrame().getScreenHeight() - 20) / 16.2) {
                 entity.setyDir(this.speed);
             }
             entity.updateSpeed(this.speed);
@@ -163,30 +140,21 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-
-    //Dizajn
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        Graphics2D g2d = (Graphics2D)g;
-        this.drawGame(g2d);
-    }
-
     //cele GUI
-    private void drawGame(Graphics2D g2d) {
-        g2d.drawImage(new ImageIcon(this.mapPath).getImage(), 0, 0, this.frame.getScreenWidth(), this.frame.getScreenHeight() - 20, null);
+    protected void drawScreen(Graphics2D g2d) {
+        g2d.drawImage(new ImageIcon(super.getMapPath()).getImage(), 0, 0, super.getFrame().getScreenWidth(), super.getFrame().getScreenHeight() - 20, null);
 
         for (Entity entity : this.entities) {
             g2d.drawImage(entity.getImage(), entity.getX(), entity.getY(), null);
         }
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial Bold", Font.BOLD, 25));
-        g2d.drawString(("SPEED: " + this.speed), this.frame.getScreenWidth() / 2 - 50, this.frame.getScreenHeight() - 35);
-        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(), this.frame.getScreenWidth() / 2 - 100, this.frame.getScreenHeight() - 60, 35, 35, null);
+        g2d.drawString(("SPEED: " + this.speed), super.getFrame().getScreenWidth() / 2 - 50, super.getFrame().getScreenHeight() - 35);
+        g2d.drawImage(new ImageIcon("assets/BUTTONS/downArr.png").getImage(), super.getFrame().getScreenWidth() / 2 - 100, super.getFrame().getScreenHeight() - 60, 35, 35, null);
         if (this.speed > 9) {
-            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), this.frame.getScreenWidth() / 2 + 90, this.frame.getScreenHeight() - 60, 35, 35, null);
+            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), super.getFrame().getScreenWidth() / 2 + 90, super.getFrame().getScreenHeight() - 60, 35, 35, null);
         } else {
-            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), this.frame.getScreenWidth() / 2 + 80, this.frame.getScreenHeight() - 60, 35, 35, null);
+            g2d.drawImage(new ImageIcon("assets/BUTTONS/upArr.png").getImage(), super.getFrame().getScreenWidth() / 2 + 80, super.getFrame().getScreenHeight() - 60, 35, 35, null);
         }
     }
 
@@ -203,7 +171,6 @@ public class Game extends JPanel implements KeyListener, ActionListener {
     }
 
     //4 metody ktore spolupracuju pri kontrole ci su splnene vsetky podmienky na vyhru
-
     private boolean winCondition() {
         if (this.areAllRock()) {
             this.winner = "ROCK";
@@ -245,6 +212,13 @@ public class Game extends JPanel implements KeyListener, ActionListener {
         return true;
     }
 
+    private void endGame() {
+        this.timer.stop();
+        this.gameTimer.stopTimer(this.speed);
+        this.elapsedTime = this.gameTimer.getTotalTime();
+        this.endScreen.paintEndScreen((Graphics2D)this.getGraphics(), this.winner, this.statistics);
+    }
+
     //Funkcie keyboard inputu
     @Override
     public void keyPressed(KeyEvent e) {
@@ -277,26 +251,11 @@ public class Game extends JPanel implements KeyListener, ActionListener {
             this.endGame();
         }
     }
-    private void endGame() {
-        this.timer.stop();
-        this.gameTimer.stopTimer(this.speed);
-        this.elapsedTime = this.gameTimer.getTotalTime();
-        this.endScreen.paintEndScreen((Graphics2D)this.getGraphics(), this.winner, this.statistics);
-    }
-
     @Override
     public void keyReleased(KeyEvent e) {
     }
     @Override
     public void keyTyped(KeyEvent e) {
-    }
-
-    public String getMapPath() {
-        return this.mapPath;
-    }
-
-    public String[] getSkinPaths() {
-        return this.skinPaths;
     }
 
     public Timer getTimer() {
@@ -305,5 +264,15 @@ public class Game extends JPanel implements KeyListener, ActionListener {
 
     public double getElapsedTime() {
         return this.elapsedTime;
+    }
+
+
+    @Override
+    protected void setupButtons() {
+
+    }
+    @Override
+    public void onButtonClick(EButtons button) {
+
     }
 }

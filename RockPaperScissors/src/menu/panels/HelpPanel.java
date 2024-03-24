@@ -1,5 +1,6 @@
 package menu.panels;
 
+import handlers.Panels;
 import menu.Frame;
 import menu.buttons.Button;
 import menu.buttons.EButtons;
@@ -13,7 +14,7 @@ public class HelpPanel extends Panels {
     HelpPanel(Frame pFrame, String mapPath, String[] skinPaths) {
         super(pFrame, mapPath, skinPaths);
 
-        super.setupPanel();
+        super.setupPanel(600, 800);
     }
 
     public void setupButtons() {

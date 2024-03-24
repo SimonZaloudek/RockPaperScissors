@@ -1,6 +1,6 @@
 package menu.buttons;
 
-import menu.panels.IPanel;
+import handlers.IPanel;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
