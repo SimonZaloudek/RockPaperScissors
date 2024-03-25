@@ -58,7 +58,6 @@ public class EndScreen implements IPanel {
     public void drawStats(Graphics2D g2d) {
         this.drawEndScreen(g2d);
 
-        //TODO - move to |Stats class|
         g2d.setFont(new Font("Arial", Font.PLAIN, 15));
         g2d.drawString("Total time: " + new DecimalFormat("0.0").format(this.game.getElapsedTime()) + " sec.", (this.frame.getScreenWidth() / 2 - 110), 560);
         g2d.drawString("Total touches: " + this.statistics.getTouches(), (this.frame.getScreenWidth() / 2 - 110), 585);
